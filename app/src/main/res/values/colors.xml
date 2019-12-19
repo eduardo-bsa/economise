@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#37364b</color>
+    <color name="colorPrimaryDark">#040404</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="receitaPrimary">#306F32</color>
+    <color name="receitaSecundary">#46A048</color>
+</resources>

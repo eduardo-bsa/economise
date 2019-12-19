@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Economise</string>
+    <string name="account_name">E-mail</string>
+    <string name="username">exemplo@mail.com.br</string>
+    <string name="password">Senha</string>
+    <string name="password_hint">**********</string>
+    <string name="sign_in">Entre</string>
+    <string name="create_account">Criar Conta</string>
+    <string name="forgot_your_login_info">Esqueceu sua senha?</string>
+    <string name="first_name">Primeiro Nome</string>
+    <string name="last_name">Sobrenome</string>
+    <string name="email_hint">exemplo@mail.com.br</string>
+    <string name="email">E-mail</string>
+    <string name="reset_senha">Enviar e-mail de recuperação</string>
+    <string name="receita">RECEITA</string>
+    <string name="despesa">DESPESA</string>
+    <string name="inicio">Início</string>
+    <string name="extrato">Extrato</string>
+    <string name="limites">Limites</string>
+    <string name="categorias">Categorias</string>
+    <string name="sair">Sair</string>
+    <string name="valor_hint">R$ 0,00</string>
+    <string name="descricao_hint">Descrição</string>
+    <string name="valor_receita_label">Valor da receita</string>
+    <string name="data_hint">__/__/____</string>
+    <string name="data_label">Data</string>
+    <string name="salvar">SALVAR</string>
+    <string name="categoria">Categoria</string>
+</resources>

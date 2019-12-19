@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_gravity="bottom"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnReceita"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/receita_button_bg"
+                android:text="@string/receita"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/colorAccent"/>
+
+            <Button
+                android:id="@+id/btnDespesa"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/despesa_button_bg"
+                android:text="@string/despesa"
+                android:textColor="@color/colorAccent"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#BDBDBD" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvInicio"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/inicio"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginRight="30dp"
+                android:textColor="#b00000"
+                android:drawableTop="@drawable/ic_home_red" />
+
+            <TextView
+                android:id="@+id/tvExtrato"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/extrato"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginRight="30dp"
+                android:textColor="#000000"
+                android:drawableTop="@drawable/ic_extrato" />
+
+            <TextView
+                android:id="@+id/tvLimites"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/limites"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginRight="30dp"
+                android:textColor="#000000"
+                android:drawableTop="@drawable/ic_porcentagem" />
+
+            <TextView
+                android:id="@+id/tvCategorias"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/categorias"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginRight="30dp"
+                android:textColor="#000000"
+                android:drawableTop="@drawable/ic_engrenagem" />
+
+            <TextView
+                android:id="@+id/tvSair"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/sair"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:drawableTop="@drawable/ic_sair" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
