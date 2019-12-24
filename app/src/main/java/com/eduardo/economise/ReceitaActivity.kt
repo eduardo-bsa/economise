@@ -13,9 +13,9 @@ import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ReceitaActivity : AppCompatActivity() {
@@ -27,6 +27,7 @@ class ReceitaActivity : AppCompatActivity() {
     lateinit var text: String
     lateinit var categoria: String
     lateinit var lancamentoList: MutableList<Lancamento>
+    lateinit var categoriaList: MutableList<Categoria>
 
     //UI
 
@@ -197,18 +198,15 @@ class ReceitaActivity : AppCompatActivity() {
     private fun spinnerListener() {
         spCategoria = findViewById(R.id.spCategoria) as Spinner
 
-        val option = arrayOf("Option 1", "Option 2", "Option 3")
+        categoriaList = mutableListOf()
 
-        spCategoria.adapter = ArrayAdapter<String>(this, R.layout.spinner, option)
+        val query = FirebaseDatabase.getInstance().getReference("categoria")
+            .orderByChild("usuario")
+            .equalTo(firebaseUser?.getEmail().toString())
 
-        spCategoria.onItemSelectedListener = object : OnItemSelectedListener{
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
+        query.addListenerForSingleValueEvent(valueEventListener)
 
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                categoria = option.get(p2)
-            }
-        }
+
     }
 
     private fun save() {
@@ -227,7 +225,7 @@ class ReceitaActivity : AppCompatActivity() {
         if (!valor.isEmpty() && !data.isEmpty()) {
             val lancamentoId = ref.push().key
 
-            val lanc = Lancamento(lancamentoId!!, desc, "- " + valor, data, categoria, firebaseUser?.getEmail().toString())
+            val lanc = Lancamento(lancamentoId!!, desc, valor, data, categoria, firebaseUser?.getEmail().toString())
 
             ref.child(lancamentoId).setValue(lanc).addOnCompleteListener {
                 Toast.makeText(applicationContext, "Lançamento realizado", Toast.LENGTH_SHORT).show()
@@ -238,6 +236,38 @@ class ReceitaActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    var valueEventListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            categoriaList.clear()
+
+            for (snapshot in dataSnapshot.children) {
+                val cat = snapshot.getValue(Categoria::class.java)
+                categoriaList.add(cat!!)
+            }
+
+            //val option = arrayOf("Option 1", "Option 1")
+
+            val option = ArrayList<String>()
+
+            categoriaList.forEach { t: Categoria ->
+                option.add(t.categoria.trim())
+            }
+
+            spCategoria.adapter = ArrayAdapter<String>(this@ReceitaActivity, R.layout.spinner, option)
+
+            spCategoria.onItemSelectedListener = object : OnItemSelectedListener{
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    categoria = option.get(p2)
+                }
+            }
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {}
     }
 
 }
