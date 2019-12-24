@@ -1,14 +1,14 @@
 package com.eduardo.economise
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     //Variáveis globais
 
-    lateinit var categoriaList: MutableList<Lancamento>
+    lateinit var categoriaList: MutableList<Categoria>
 
     //BD
 
@@ -87,12 +87,65 @@ class MainActivity : AppCompatActivity() {
 
         categoriaList = mutableListOf()
 
-        if (categoriaList.isEmpty()) {
-            val categoriaId = ref.push().key
+        val query = FirebaseDatabase.getInstance().getReference("categoria")
+            .orderByChild("usuario")
+            .equalTo(firebaseUser?.getEmail().toString())
 
-            val cat = Categoria(categoriaId!!, "Alimentação", firebaseUser?.getEmail().toString())
+        query.addListenerForSingleValueEvent(valueEventListener)
+    }
 
-            ref.child(categoriaId).setValue(cat)
+    var valueEventListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            categoriaList.clear()
+
+            for (snapshot in dataSnapshot.children) {
+                val cat = snapshot.getValue(Categoria::class.java)
+                categoriaList.add(cat!!)
+            }
+
+            if (categoriaList.isEmpty()) {
+                var categoriaId = ref.push().key
+
+                var value = Categoria(categoriaId!!, "Alimentação", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+
+                categoriaId = ref.push().key
+
+                value = Categoria(categoriaId!!, "Bares e restaurantes", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+
+                categoriaId = ref.push().key
+
+                value = Categoria(categoriaId!!, "Casa", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+
+                categoriaId = ref.push().key
+
+                value = Categoria(categoriaId!!, "Transporte", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+
+                categoriaId = ref.push().key
+
+                value = Categoria(categoriaId!!, "Educação", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+
+                categoriaId = ref.push().key
+
+                value = Categoria(categoriaId!!, "Mercado", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+
+                categoriaId = ref.push().key
+
+                value = Categoria(categoriaId!!, "Saúde", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+
+                categoriaId = ref.push().key
+
+                value = Categoria(categoriaId!!, "Outros", firebaseUser?.getEmail().toString())
+                ref.child(categoriaId).setValue(value)
+            }
         }
+
+        override fun onCancelled(databaseError: DatabaseError) {}
     }
 }
