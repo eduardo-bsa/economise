@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,21 +23,21 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"
-            android:drawableTop="@drawable/ic_home"
+            android:drawableTop="@drawable/ic_home_gray"
             android:gravity="center"
             android:text="@string/inicio"
-            android:textColor="#000000"
+            android:textColor="#B4B4B4"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvExtrato"
+            android:id="@+id/tvGrafico"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"
-            android:drawableTop="@drawable/ic_extrato"
+            android:drawableTop="@drawable/ic_donut_gray"
             android:gravity="center"
-            android:text="@string/extrato"
-            android:textColor="#000000"
+            android:text="@string/grafico"
+            android:textColor="#B4B4B4"
             android:textStyle="bold" />
 
         <TextView
@@ -46,10 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"
-            android:drawableTop="@drawable/ic_porcentagem"
+            android:drawableTop="@drawable/ic_porcentagem_gray"
             android:gravity="center"
-            android:text="@string/limites"
-            android:textColor="#000000"
+            android:text="@string/metas"
+            android:textColor="#B4B4B4"
             android:textStyle="bold" />
 
         <TextView
@@ -57,20 +56,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"
-            android:drawableTop="@drawable/ic_engrenagem"
+            android:drawableTop="@drawable/ic_engrenagem_gray"
             android:gravity="center"
             android:text="@string/categorias"
-            android:textColor="#000000"
+            android:textColor="#B4B4B4"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSair"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableTop="@drawable/ic_sair"
+            android:drawableTop="@drawable/ic_sair_gray"
             android:gravity="center"
             android:text="@string/sair"
-            android:textColor="#000000"
+            android:textColor="#B4B4B4"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -78,7 +77,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
         android:background="#BDBDBD"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,9 +86,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,6 +102,7 @@
             android:layout_marginBottom="20dp"
             android:background="@null"
             android:hint="@string/descricao_hint"
+            android:maxLength="100"
             android:textColor="@android:color/black"
             android:textSize="35sp" />
 
@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/valor_receita_label"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/etReais"
@@ -128,14 +128,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/data_label"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tvData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
             android:layout_marginBottom="20dp"
+            android:background="@null"
             android:fontFamily="serif"
             android:hint="@string/data_hint"
             android:textColor="@android:color/black"
@@ -145,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/categoria"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <Spinner
             android:id="@+id/spCategoria"
@@ -159,11 +159,11 @@
             android:id="@+id/btnSave"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
             android:background="@drawable/receita_button_bg"
             android:text="@string/salvar"
-            android:textColor="@color/colorAccent"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"/>
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
 

@@ -1,33 +1,39 @@
 package com.eduardo.economise
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
 class MainActivity : AppCompatActivity() {
 
     //UI
-
     lateinit var btnReceita: Button
     lateinit var btnDespesa: Button
-    lateinit var tvExtrato: TextView
+    lateinit var tvGrafico: TextView
     lateinit var tvLimites: TextView
     lateinit var tvCategorias: TextView
     lateinit var tvSair: TextView
+    lateinit var tvSaldo: TextView
+    lateinit var lvLancamentos: ListView
+    lateinit var tvNull: TextView
 
     //Variáveis globais
-
     lateinit var categoriaList: MutableList<Categoria>
+    lateinit var lancamentoList: MutableList<Lancamento>
 
     //BD
-
-    lateinit var ref: DatabaseReference
+    lateinit var refCategoria: DatabaseReference
     var firebaseAuth: FirebaseAuth? = null
     var firebaseUser: FirebaseUser? = null
 
@@ -37,35 +43,60 @@ class MainActivity : AppCompatActivity() {
 
         initialise()
 
+        saldo()
+
         categorias()
     }
 
     private fun initialise() {
         btnReceita = findViewById(R.id.btnReceita)
         btnDespesa = findViewById(R.id.btnDespesa)
-        tvExtrato = findViewById(R.id.tvExtrato)
+        tvGrafico = findViewById(R.id.tvGrafico)
         tvLimites = findViewById(R.id.tvLimites)
         tvCategorias = findViewById(R.id.tvCategorias)
         tvSair = findViewById(R.id.tvSair)
 
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseUser = firebaseAuth!!.getCurrentUser()
+
         btnReceita.setOnClickListener {
-            startActivity(Intent(this@MainActivity, ReceitaActivity::class.java))
+            val intent = Intent(this@MainActivity, ReceitaActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
         btnDespesa.setOnClickListener {
-            startActivity(Intent(this@MainActivity, DespesaActivity::class.java))
+            val intent = Intent(this@MainActivity, DespesaActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
-        tvExtrato.setOnClickListener {
-            startActivity(Intent(this@MainActivity, ExtratoActivity::class.java))
+        tvGrafico.setOnClickListener {
+            val intent = Intent(this@MainActivity, GraficoActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
         tvLimites.setOnClickListener {
-            startActivity(Intent(this@MainActivity, LimitesActivity::class.java))
+            val intent = Intent(this@MainActivity, LimitesActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
         tvCategorias.setOnClickListener {
-            startActivity(Intent(this@MainActivity, CategoriasActivity::class.java))
+            val intent = Intent(this@MainActivity, CategoriasActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
         tvSair.setOnClickListener {
@@ -79,22 +110,81 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun categorias() {
-        ref = FirebaseDatabase.getInstance().getReference("categoria")
+    private fun saldo() {
+        tvSaldo = findViewById(R.id.tvSaldo)
+        lancamentoList = mutableListOf()
 
-        firebaseAuth = FirebaseAuth.getInstance()
-        firebaseUser = firebaseAuth!!.getCurrentUser()
-
-        categoriaList = mutableListOf()
-
-        val query = FirebaseDatabase.getInstance().getReference("categoria")
+        val queryLancamento = FirebaseDatabase.getInstance().getReference("lancamento")
             .orderByChild("usuario")
             .equalTo(firebaseUser?.getEmail().toString())
 
-        query.addListenerForSingleValueEvent(valueEventListener)
+        queryLancamento.addValueEventListener(lancamentoEventListener)
     }
 
-    var valueEventListener: ValueEventListener = object : ValueEventListener {
+    var lancamentoEventListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            lancamentoList.clear()
+
+            for (snapshot in dataSnapshot.children) {
+                val lanc = snapshot.getValue(Lancamento::class.java)
+                lancamentoList.add(lanc!!)
+            }
+
+            var saldo = 0.00
+
+            lvLancamentos = findViewById<View>(R.id.lvLancamentos) as ListView
+
+            if (!lancamentoList.isEmpty()) {
+                for (i in lancamentoList.indices) {
+                    if (lancamentoList[i].valor.substring(0,1) == "-") {
+                        val valor = lancamentoList[i].valor.substring(5).replace(",",".").toFloat() * -1
+                        saldo += valor
+                    } else {
+                        val valor = lancamentoList[i].valor.substring(3).replace(",",".").toFloat()
+                        saldo += valor
+                    }
+                }
+
+                if (BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN) < 0.toBigDecimal()) {
+                    tvSaldo.text = "R$ ${BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN).toString().replace(".",",")}"
+
+                    tvSaldo.setTextColor(Color.parseColor("#B84A43"))
+                } else if (BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN) > 0.toBigDecimal()) {
+                    tvSaldo.text = "R$ ${BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN).toString().replace(".",",")}"
+
+                    tvSaldo.setTextColor(Color.parseColor("#46A048"))
+                }
+                val sort = lancamentoList.sortedBy { it.data.substring(3,5)+it.data.substring(0,2).toInt() }
+
+                val adapter = LancamentoAdapter(this@MainActivity, R.layout.list_lancamento, sort.reversed())
+                lvLancamentos.adapter = adapter
+            } else {
+                tvSaldo.text = ""
+
+                lvLancamentos.setVisibility(View.INVISIBLE)
+
+                tvNull = findViewById(R.id.tvNull)
+
+                tvNull.text = "Realize lançamentos, pelos botões de Receita e Despesa"
+            }
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {}
+    }
+
+    private fun categorias() {
+        refCategoria = FirebaseDatabase.getInstance().getReference("categoria")
+
+        categoriaList = mutableListOf()
+
+        val queryCategoria = FirebaseDatabase.getInstance().getReference("categoria")
+            .orderByChild("usuario")
+            .equalTo(firebaseUser?.getEmail().toString())
+
+        queryCategoria.addListenerForSingleValueEvent(categoriaEventListener)
+    }
+
+    var categoriaEventListener: ValueEventListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             categoriaList.clear()
 
@@ -104,45 +194,45 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (categoriaList.isEmpty()) {
-                var categoriaId = ref.push().key
+                var categoriaId = refCategoria.push().key
 
                 var value = Categoria(categoriaId!!, "Alimentação", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
 
-                categoriaId = ref.push().key
+                categoriaId = refCategoria.push().key
 
                 value = Categoria(categoriaId!!, "Bares e restaurantes", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
 
-                categoriaId = ref.push().key
+                categoriaId = refCategoria.push().key
 
                 value = Categoria(categoriaId!!, "Casa", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
 
-                categoriaId = ref.push().key
+                categoriaId = refCategoria.push().key
 
                 value = Categoria(categoriaId!!, "Transporte", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
 
-                categoriaId = ref.push().key
+                categoriaId = refCategoria.push().key
 
                 value = Categoria(categoriaId!!, "Educação", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
 
-                categoriaId = ref.push().key
+                categoriaId = refCategoria.push().key
 
                 value = Categoria(categoriaId!!, "Mercado", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
 
-                categoriaId = ref.push().key
+                categoriaId = refCategoria.push().key
 
                 value = Categoria(categoriaId!!, "Saúde", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
 
-                categoriaId = ref.push().key
+                categoriaId = refCategoria.push().key
 
                 value = Categoria(categoriaId!!, "Outros", firebaseUser?.getEmail().toString())
-                ref.child(categoriaId).setValue(value)
+                refCategoria.child(categoriaId).setValue(value)
             }
         }
 

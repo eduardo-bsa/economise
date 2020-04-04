@@ -1,30 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_gravity="bottom"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvSaldoLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/saldo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSaldo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:hint="@string/valor_hint"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSaldoLabel" />
+
+    <TextView
+        android:id="@+id/tvNull"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lvLancamentos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSaldo" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnReceita"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/receita_button_bg"
                 android:text="@string/receita"
-                android:layout_marginRight="5dp"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent" />
 
             <Button
                 android:id="@+id/btnDespesa"
@@ -32,78 +82,78 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/despesa_button_bg"
                 android:text="@string/despesa"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="1dp"
             android:background="#BDBDBD" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="4dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="4dp">
 
             <TextView
                 android:id="@+id/tvInicio"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/inicio"
-                android:gravity="center"
-                android:textStyle="bold"
                 android:layout_marginRight="30dp"
-                android:textColor="#b00000"
-                android:drawableTop="@drawable/ic_home_red" />
+                android:drawableTop="@drawable/ic_home"
+                android:gravity="center"
+                android:text="@string/inicio"
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvExtrato"
+                android:id="@+id/tvGrafico"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/extrato"
-                android:gravity="center"
-                android:textStyle="bold"
                 android:layout_marginRight="30dp"
-                android:textColor="#000000"
-                android:drawableTop="@drawable/ic_extrato" />
+                android:drawableTop="@drawable/ic_donut_gray"
+                android:gravity="center"
+                android:text="@string/grafico"
+                android:textColor="#B4B4B4"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvLimites"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/limites"
-                android:gravity="center"
-                android:textStyle="bold"
                 android:layout_marginRight="30dp"
-                android:textColor="#000000"
-                android:drawableTop="@drawable/ic_porcentagem" />
+                android:drawableTop="@drawable/ic_porcentagem_gray"
+                android:gravity="center"
+                android:text="@string/metas"
+                android:textColor="#B4B4B4"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvCategorias"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/categorias"
-                android:gravity="center"
-                android:textStyle="bold"
                 android:layout_marginRight="30dp"
-                android:textColor="#000000"
-                android:drawableTop="@drawable/ic_engrenagem" />
+                android:drawableTop="@drawable/ic_engrenagem_gray"
+                android:gravity="center"
+                android:text="@string/categorias"
+                android:textColor="#B4B4B4"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvSair"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/sair"
+                android:drawableTop="@drawable/ic_sair_gray"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:drawableTop="@drawable/ic_sair" />
+                android:text="@string/sair"
+                android:textColor="#B4B4B4"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -13,15 +12,11 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
-    private var TAG = "LoginActivity"
-
     //Variáveis Globais
-
     private var email: String? = null
     private var password: String? = null
 
     //UI
-
     private var tvForgotPassword: TextView? = null
     private var etEmail: TextView? = null
     private var etPassword: TextView? = null
@@ -75,18 +70,14 @@ class LoginActivity : AppCompatActivity() {
 
             enableViews(layout, false)
 
-            Log.d(TAG, "Login do usuário")
-
             mAuth!!.signInWithEmailAndPassword(email!!, password!!).addOnCompleteListener(this){ task ->
                 progressBar.setVisibility(View.INVISIBLE)
 
                 enableViews(layout, true)
 
                 if (task.isSuccessful) {
-                    Log.d(TAG, "Logado com sucesso")
                     updateUi()
                 } else {
-                    Log.e(TAG, "Erro ao logar", task.exception)
                     Toast.makeText(this@LoginActivity, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show()
                 }
             }

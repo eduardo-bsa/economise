@@ -15,8 +15,8 @@
     <string name="receita">RECEITA</string>
     <string name="despesa">DESPESA</string>
     <string name="inicio">Início</string>
-    <string name="extrato">Extrato</string>
-    <string name="limites">Limites</string>
+    <string name="grafico">Gráficos</string>
+    <string name="metas">Metas</string>
     <string name="categorias">Categorias</string>
     <string name="sair">Sair</string>
     <string name="valor_hint">R$ 0,00</string>
@@ -26,4 +26,20 @@
     <string name="data_label">Data</string>
     <string name="salvar">SALVAR</string>
     <string name="categoria">Categoria</string>
+    <string name="saldo">Saldo</string>
+    <string name="valor_despesa_label">Valor da despesa</string>
+    <string name="nova_categoria_label">Adicionar categoria</string>
+    <string name="economia_label">Quanto pretende economizar por mês?</string>
+    <string name="max_label">Qual o valor máximo que será gasto por mês?</string>
+    <string name="min_label">Qual a receita mínima necessária por mês?</string>
+    <string name="nova_cat_hint">Ex: Investimentos</string>
+    <string name="update_valor">Salvar alteração</string>
+    <string name="delete_valor">Excluir lançamento</string>
+    <string name="despesa_label">Despesas por categoria</string>
+    <string name="saldo_mes_label">Saldo do mês</string>
+    <string name="economia_valor_label">Valor que pretende economizar</string>
+    <string name="despesa_mes_label">Despesas do mês</string>
+    <string name="max_valor_label">Máximo que pretende gastar</string>
+    <string name="receita_label">Receita</string>
+    <string name="receita_min_label">Receita mínima necessária</string>
 </resources>

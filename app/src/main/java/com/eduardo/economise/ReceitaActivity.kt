@@ -21,7 +21,6 @@ import kotlin.collections.ArrayList
 class ReceitaActivity : AppCompatActivity() {
 
     //Variáveis Globais
-
     lateinit var date: String
     lateinit var oldReais: String
     lateinit var text: String
@@ -30,9 +29,8 @@ class ReceitaActivity : AppCompatActivity() {
     lateinit var categoriaList: MutableList<Categoria>
 
     //UI
-
     lateinit var tvInicio: TextView
-    lateinit var tvExtrato: TextView
+    lateinit var tvGrafico: TextView
     lateinit var tvLimites: TextView
     lateinit var tvCategorias: TextView
     lateinit var tvSair: TextView
@@ -44,11 +42,9 @@ class ReceitaActivity : AppCompatActivity() {
     lateinit var spCategoria: Spinner
 
     //Date Listener
-
     lateinit var setData: OnDateSetListener
 
     //BD
-
     lateinit var ref: DatabaseReference
     var firebaseAuth: FirebaseAuth? = null
     var firebaseUser: FirebaseUser? = null
@@ -68,7 +64,7 @@ class ReceitaActivity : AppCompatActivity() {
 
     private fun initialise() {
         tvInicio = findViewById(R.id.tvInicio)
-        tvExtrato = findViewById(R.id.tvExtrato)
+        tvGrafico = findViewById(R.id.tvGrafico)
         tvLimites = findViewById(R.id.tvLimites)
         tvCategorias = findViewById(R.id.tvCategorias)
         tvSair = findViewById(R.id.tvSair)
@@ -85,19 +81,35 @@ class ReceitaActivity : AppCompatActivity() {
         firebaseUser = firebaseAuth!!.getCurrentUser()
 
         tvInicio.setOnClickListener {
-            startActivity(Intent(this@ReceitaActivity, MainActivity::class.java))
+            val intent = Intent(this@ReceitaActivity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
-        tvExtrato.setOnClickListener {
-            startActivity(Intent(this@ReceitaActivity, ExtratoActivity::class.java))
+        tvGrafico.setOnClickListener {
+            val intent = Intent(this@ReceitaActivity, GraficoActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
         tvLimites.setOnClickListener {
-            startActivity(Intent(this@ReceitaActivity, LimitesActivity::class.java))
+            val intent = Intent(this@ReceitaActivity, LimitesActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
         tvCategorias.setOnClickListener {
-            startActivity(Intent(this@ReceitaActivity, CategoriasActivity::class.java))
+            val intent = Intent(this@ReceitaActivity, CategoriasActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
         tvSair.setOnClickListener {
@@ -205,8 +217,6 @@ class ReceitaActivity : AppCompatActivity() {
             .equalTo(firebaseUser?.getEmail().toString())
 
         query.addListenerForSingleValueEvent(valueEventListener)
-
-
     }
 
     private fun save() {
@@ -231,9 +241,11 @@ class ReceitaActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Lançamento realizado", Toast.LENGTH_SHORT).show()
             }
 
-            startActivity(Intent(this@ReceitaActivity, MainActivity::class.java))
+            val intent = Intent(this@ReceitaActivity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
-            finish()
+            startActivity(intent)
         }
 
     }
@@ -246,8 +258,6 @@ class ReceitaActivity : AppCompatActivity() {
                 val cat = snapshot.getValue(Categoria::class.java)
                 categoriaList.add(cat!!)
             }
-
-            //val option = arrayOf("Option 1", "Option 1")
 
             val option = ArrayList<String>()
 

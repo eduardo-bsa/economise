@@ -1,9 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CategoriasActivity">
+
+    <TextView
+        android:id="@+id/tvCategoriaLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/nova_categoria_label"
+        android:textColor="#000"
+        android:textSize="17dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSave"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="@+id/etCategoria"
+        app:layout_constraintStart_toEndOf="@+id/etCategoria"
+        app:layout_constraintTop_toTopOf="@+id/etCategoria" />
+
+    <ListView
+        android:id="@+id/lvCategorias"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCategoria" />
+
+    <EditText
+        android:id="@+id/etCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:maxLength="25"
+        android:background="@drawable/categoria_edittext_bg"
+        android:hint="@string/nova_cat_hint"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textColorHint="#B4B4B4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCategoriaLabel" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/tvInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/ic_home_gray"
+            android:gravity="center"
+            android:text="@string/inicio"
+            android:textColor="#B4B4B4"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvGrafico"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/ic_donut_gray"
+            android:gravity="center"
+            android:text="@string/grafico"
+            android:textColor="#B4B4B4"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvLimites"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/ic_porcentagem_gray"
+            android:gravity="center"
+            android:text="@string/metas"
+            android:textColor="#B4B4B4"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCategorias"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="30dp"
+            android:drawableTop="@drawable/ic_engrenagem"
+            android:gravity="center"
+            android:text="@string/categorias"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSair"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableTop="@drawable/ic_sair_gray"
+            android:gravity="center"
+            android:text="@string/sair"
+            android:textColor="#B4B4B4"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B4B4B4"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

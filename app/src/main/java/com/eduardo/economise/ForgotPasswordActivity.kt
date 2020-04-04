@@ -12,16 +12,13 @@ import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordActivity : AppCompatActivity() {
-
-    private val TAG = "ForgotPasswordActivity"
-
-    //Elementos da UI
+    //UI
     private var etEmail: EditText? = null
     private var btnSubmit: Button? = null
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
 
-    //Referência ao BD
+    //BD
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,11 +60,9 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
                     if (task.isSuccessful) {
                         val message = "Email enviado"
-                        Log.d(TAG, message)
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         updateUI()
                     } else {
-                        Log.w(TAG, task.exception!!.message)
                         Toast.makeText(this,"Email não encontrado", Toast.LENGTH_SHORT).show()
                     }
                 }

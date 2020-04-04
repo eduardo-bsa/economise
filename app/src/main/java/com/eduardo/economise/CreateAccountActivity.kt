@@ -19,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase
 class CreateAccountActivity : AppCompatActivity() {
 
     //UI
-
     private var etFirstName: EditText? = null
     private var etLastName: EditText? = null
     private var etEmail: EditText? = null
@@ -28,16 +27,12 @@ class CreateAccountActivity : AppCompatActivity() {
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
 
-    //Referências ao BD
-
+    //BD
     private var mDatabaseReference: DatabaseReference? = null
     private var mDatabase: FirebaseDatabase? = null
     private var mAuth: FirebaseAuth? = null
 
-    private val TAG = "CreateAccountActivity"
-
     //Variáveis globais
-
     private var firstName: String? = null
     private var lastName: String? = null
     private var email: String? = null
@@ -89,8 +84,6 @@ class CreateAccountActivity : AppCompatActivity() {
                     enableViews(layout, true)
 
                     if (task.isSuccessful) {
-                        Log.d(TAG, "CreateUserWithEmail:Sucess")
-
                         val userId = mAuth!!.currentUser!!.uid
 
                         val currentUserDb = mDatabaseReference!!.child(userId)
@@ -98,9 +91,10 @@ class CreateAccountActivity : AppCompatActivity() {
                         currentUserDb.child("lastName").setValue(lastName)
 
                         updateUserInfoandUi()
-                    } else {
-                        Log.w(TAG, "CreateUserWithEmail:Fail", task.exception)
+                    } else if (password!!.length < 6) {
                         Toast.makeText(this@CreateAccountActivity, "A senha deve ter no mínimo seis caracteres", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@CreateAccountActivity, "Já existe uma conta relacionada com esse e-mail", Toast.LENGTH_SHORT).show()
                     }
                 }
 

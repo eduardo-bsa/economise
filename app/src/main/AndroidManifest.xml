@@ -9,15 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CategoriasActivity"></activity>
+        <activity android:name=".CategoriasActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".LimitesActivity" />
-        <activity android:name=".ExtratoActivity" />
-        <activity android:name=".DespesaActivity" />
+        <activity android:name=".GraficoActivity" />
+        <activity android:name=".DespesaActivity"
+            android:theme="@style/DespesaTheme"
+            android:label="Despesa" />
         <activity android:name=".ReceitaActivity"
-            android:theme="@style/BarTheme"
+            android:theme="@style/ReceitaTheme"
             android:label="Receita" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashScreen" android:theme="@style/SplashTheme">
