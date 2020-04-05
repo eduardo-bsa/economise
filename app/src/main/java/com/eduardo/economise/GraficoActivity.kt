@@ -2,6 +2,7 @@ package com.eduardo.economise
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -19,6 +20,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.w3c.dom.Text
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -39,6 +41,9 @@ class GraficoActivity : AppCompatActivity() {
     lateinit var tvGasto: TextView
     lateinit var tvSaldo: TextView
     lateinit var tvReceita: TextView
+    lateinit var tvEcon: TextView
+    lateinit var tvMaxValor: TextView
+    lateinit var tvMinReceita: TextView
 
     //Variáveis globais
     lateinit var categoria: MutableList<String>
@@ -47,6 +52,7 @@ class GraficoActivity : AppCompatActivity() {
     lateinit var lancamentoList: MutableList<Lancamento>
     lateinit var mesList: MutableList<String>
     lateinit var valList: MutableList<Meta>
+    var optionSpinner = ""
 
     //BD
     var firebaseUser: FirebaseUser? = null
@@ -125,6 +131,7 @@ class GraficoActivity : AppCompatActivity() {
                 val lanc = snapshot.getValue(Lancamento::class.java)
                 lancamentoList.add(lanc!!)
             }
+
             val option = ArrayList<String>()
             spMes = findViewById(R.id.spMes)
             mesList = mutableListOf()
@@ -136,6 +143,7 @@ class GraficoActivity : AppCompatActivity() {
             }
 
             val sort = mesList.sortedBy { it.substring(3,7)+it.substring(0,2).toInt() }
+            sort.reversed()
 
             sort.forEach { t: String ->
                 option.add(t.trim())
@@ -146,7 +154,11 @@ class GraficoActivity : AppCompatActivity() {
             val currentDate: String =
                 SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(Date())
 
-            spMes.setSelection(sort.indexOf(currentDate))
+            for (i in lancamentoList.indices) {
+                if (lancamentoList[i].data.substring(3,6) + lancamentoList[i].data.substring(6).trim() == currentDate) {
+                    spMes.setSelection(sort.indexOf(currentDate))
+                }
+            }
 
             val pie: Pie = AnyChart.pie()
 
@@ -248,6 +260,20 @@ class GraficoActivity : AppCompatActivity() {
 
                         tvNull.text = ""
                     }
+
+                    optionSpinner = option.get(p2)
+
+                    valList = mutableListOf()
+
+                    tvEcon = findViewById(R.id.tvEcon)
+                    tvMaxValor = findViewById(R.id.tvMaxValor)
+                    tvMinReceita = findViewById(R.id.tvMinReceita)
+
+                    val queryMetas = FirebaseDatabase.getInstance().getReference("meta")
+                        .orderByChild("usuario")
+                        .equalTo(firebaseUser?.getEmail().toString())
+
+                    queryMetas.addListenerForSingleValueEvent(metasEventListener)
                 }
             }
             anyChartView.setChart(pie)
@@ -258,6 +284,10 @@ class GraficoActivity : AppCompatActivity() {
 
     private fun getMetas() {
         valList = mutableListOf()
+
+        tvEcon = findViewById(R.id.tvEcon)
+        tvMaxValor = findViewById(R.id.tvMaxValor)
+        tvMinReceita = findViewById(R.id.tvMinReceita)
 
         val queryMetas = FirebaseDatabase.getInstance().getReference("meta")
             .orderByChild("usuario")
@@ -275,22 +305,21 @@ class GraficoActivity : AppCompatActivity() {
                 valList.add(cat!!)
             }
 
-            val currentDateVal: String =
-                SimpleDateFormat("MM", Locale.getDefault()).format(Date())
+            for (i in valList.indices) {
+                if (valList[i].mes.contains(optionSpinner)) {
+                    tvEcon.setText(valList[i].econ)
+                    tvMaxValor.setText(valList[i].max)
+                    tvMinReceita.setText(valList[i].min)
 
-            val option = ArrayList<String>()
+                    Log.d("teste" , optionSpinner)
+                } else {
+                    tvEcon.setText("R$ 0,00")
+                    tvMaxValor.setText("R$ 0,00")
+                    tvMinReceita.setText("R$ 0,00")
 
-         /*   spMes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) { }
-
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    for (i in valList.indices) {
-                        if (valList[i].mes.contains(option.get(p2))) {
-
-                        }
-                    }
+                    Log.d("sera" , optionSpinner)
                 }
-            } */
+            }
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}

@@ -125,7 +125,7 @@ class LimitesActivity : AppCompatActivity() {
             }
 
             val currentDate: String =
-                SimpleDateFormat("MM", Locale.getDefault()).format(Date())
+                SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(Date())
 
             var contador = 0
 
@@ -180,6 +180,8 @@ class LimitesActivity : AppCompatActivity() {
             val currentDateVal: String =
                 SimpleDateFormat("MM", Locale.getDefault()).format(Date())
 
+            var existe = false
+
             for (i in valList.indices) {
                 if (valList[i].mes.contains(currentDateVal)) {
                     etEconomiaValor.setText(valList[i].econ)
@@ -189,7 +191,15 @@ class LimitesActivity : AppCompatActivity() {
                     currencyListenerEcon(valList[i].econ)
                     currencyListenerMax(valList[i].max)
                     currencyListenerMin(valList[i].min)
+
+                    existe = true
                 }
+            }
+
+            if (existe == false) {
+                currencyListenerEcon("")
+                currencyListenerMax("")
+                currencyListenerMin("")
             }
         }
 
