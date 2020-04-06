@@ -110,7 +110,7 @@ class DespesaActivity : AppCompatActivity() {
         tvSair.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
-            val intent = Intent(this@DespesaActivity, LoginActivity::class.java)
+            val intent = Intent(this@DespesaActivity, MenuActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             finish()
@@ -244,6 +244,7 @@ class DespesaActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+
     }
 
     var valueEventListener: ValueEventListener = object : ValueEventListener {

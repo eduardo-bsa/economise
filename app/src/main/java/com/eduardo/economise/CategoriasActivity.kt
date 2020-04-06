@@ -83,7 +83,7 @@ class CategoriasActivity : AppCompatActivity() {
         tvSair.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
-            val intent = Intent(this@CategoriasActivity, LoginActivity::class.java)
+            val intent = Intent(this@CategoriasActivity, MenuActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             finish()

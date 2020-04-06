@@ -115,7 +115,7 @@ class ReceitaActivity : AppCompatActivity() {
         tvSair.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
-            val intent = Intent(this@ReceitaActivity, LoginActivity::class.java)
+            val intent = Intent(this@ReceitaActivity, MenuActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             finish()

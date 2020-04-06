@@ -7,7 +7,7 @@
     <string name="sign_in">Entre</string>
     <string name="create_account">Criar Conta</string>
     <string name="forgot_your_login_info">Esqueceu sua senha?</string>
-    <string name="first_name">Primeiro Nome</string>
+    <string name="first_name">Nome</string>
     <string name="last_name">Sobrenome</string>
     <string name="email_hint">exemplo@mail.com.br</string>
     <string name="email">E-mail</string>
@@ -42,4 +42,7 @@
     <string name="max_valor_label">Máximo que pretende gastar</string>
     <string name="receita_label">Receita</string>
     <string name="receita_min_label">Receita mínima necessária</string>
+    <string name="criar_conta">Crie sua conta como preferir</string>
+    <string name="criar_email">Criar com E-mail</string>
+    <string name="tenho_conta">Já tenho uma conta</string>
 </resources>

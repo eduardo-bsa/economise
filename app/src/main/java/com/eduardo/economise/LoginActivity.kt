@@ -21,9 +21,10 @@ class LoginActivity : AppCompatActivity() {
     private var etEmail: TextView? = null
     private var etPassword: TextView? = null
     private var btnLogin: TextView? = null
-    private var btnCreateAccount: TextView? = null
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
+    lateinit var imLogin: ImageView
+    lateinit var imBack: ImageView
 
     //BD
     private var mAuth: FirebaseAuth? = null
@@ -40,17 +41,28 @@ class LoginActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.et_email) as EditText
         etPassword = findViewById(R.id.et_password) as EditText
         btnLogin = findViewById(R.id.btn_login) as Button
-        btnCreateAccount = findViewById(R.id.btn_register_account) as Button
+        imLogin = findViewById(R.id.imLogin)
+        imBack = findViewById(R.id.imBack)
 
         mAuth = FirebaseAuth.getInstance()
 
         tvForgotPassword!!.setOnClickListener{
-            startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java))
+            val intent = Intent(this@LoginActivity, ForgotPasswordActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
 
-        btnCreateAccount!!.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, CreateAccountActivity::class.java))
+        imLogin.setOnClickListener {
+            val intent = Intent(this@LoginActivity, ForgotPasswordActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+            startActivity(intent)
         }
+
+        imBack.setOnClickListener { finish() }
 
         btnLogin!!.setOnClickListener { loginUser() }
     }

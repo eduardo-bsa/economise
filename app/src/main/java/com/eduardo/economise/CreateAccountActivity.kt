@@ -8,10 +8,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -26,6 +23,7 @@ class CreateAccountActivity : AppCompatActivity() {
     private var btnCreateAccount: Button? = null
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
+    lateinit var imBack: ImageView
 
     //BD
     private var mDatabaseReference: DatabaseReference? = null
@@ -51,10 +49,13 @@ class CreateAccountActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.et_email) as EditText
         etPassword = findViewById(R.id.et_password) as EditText
         btnCreateAccount = findViewById(R.id.btn_register) as Button
+        imBack = findViewById(R.id.imBack)
 
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("users")
         mAuth = FirebaseAuth.getInstance()
+
+        imBack.setOnClickListener { finish() }
 
         btnCreateAccount!!.setOnClickListener { createNewAccount() }
     }

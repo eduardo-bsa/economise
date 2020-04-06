@@ -2,6 +2,7 @@ package com.eduardo.economise
 
 import android.content.Intent
 import android.graphics.Color
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -17,6 +18,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private var btnSubmit: Button? = null
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
+    lateinit var imBack: ImageView
 
     //BD
     private var mAuth: FirebaseAuth? = null
@@ -31,8 +33,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private fun inicialise() {
         etEmail = findViewById(R.id.et_email) as EditText
         btnSubmit = findViewById(R.id.btn_submit) as Button
+        imBack = findViewById(R.id.imBack)
 
         mAuth = FirebaseAuth.getInstance()
+
+        imBack.setOnClickListener { finish() }
 
         btnSubmit!!.setOnClickListener { sendPasswordEmail() }
 

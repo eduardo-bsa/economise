@@ -30,12 +30,10 @@ class SplashScreen : AppCompatActivity() {
         if (firebaseUser != null) {
             intent = Intent(this, MainActivity::class.java)
         } else {
-            intent = Intent(this, LoginActivity::class.java)
+            intent = Intent(this, MenuActivity::class.java)
         }
 
-        Handler().postDelayed({
-            intent.change()
-        }, 2000)
+        intent.change()
     }
 
     fun Intent.change(){
