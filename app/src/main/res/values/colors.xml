@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#040404</color>
     <color name="colorAccent">#ffffff</color>
     <color name="receitaPrimary">#306F32</color>
-    <color name="receitaSecundary">#46A048</color>
+    <color name="receitaSecundary">#00A351</color>
     <color name="despesaPrimary">#BB372F</color>
     <color name="despesaSecundary">#B84A43</color>
 </resources>

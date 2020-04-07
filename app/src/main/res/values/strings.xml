@@ -45,4 +45,5 @@
     <string name="criar_conta">Crie sua conta como preferir</string>
     <string name="criar_email">Criar com E-mail</string>
     <string name="tenho_conta">Já tenho uma conta</string>
+    <string name="altera_valor">Alterar valor</string>
 </resources>

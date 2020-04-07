@@ -112,7 +112,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:text="@string/sign_in"
             app:iconTint="#ffff"
-            android:backgroundTint="#00A351"
+            android:backgroundTint="@color/receitaSecundary"
             android:textColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

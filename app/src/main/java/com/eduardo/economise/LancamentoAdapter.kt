@@ -101,45 +101,87 @@ class LancamentoAdapter (val mCtx: Context, val layoutResId: Int, val lancamento
 
         oldReais = lancamento.valor
 
-        etValor.addTextChangedListener(object : TextWatcher {
+        if (lancamento.valor.substring(0,1) == "-") {
+            etValor.addTextChangedListener(object : TextWatcher {
 
-            override fun afterTextChanged(s: Editable) {
-                if(s.toString().length > oldReais.length && s.toString().length < 13) {
-                    etValor.removeTextChangedListener(this)
+                override fun afterTextChanged(s: Editable) {
+                    if(s.toString().length > oldReais.length && s.toString().length < 15) {
+                        etValor.removeTextChangedListener(this)
 
-                    if(oldReais == "") {
-                        val num = s.toString().toFloat() / 100
-                        text = "R$ " + num.toString().replace(".",",")
-                    } else {
-                        val strConvert = (s.toString().trim().replace(",",".").replace("R$", "")).toDouble() * 10
-                        val str = (java.lang.String.format("%.2f", strConvert))
-                        text = "R$ " + str.replace(".",",")
+                        if(oldReais == "") {
+                            val num = s.toString().toFloat() / 100
+                            text = "- R$ " + num.toString().replace(".",",")
+                        } else {
+                            val strConvert = (s.toString().trim().replace(",",".").replace("- R$", "")).toDouble() * 10
+                            val str = (java.lang.String.format("%.2f", strConvert))
+                            text = "- R$ " + str.replace(".",",")
+                        }
+
+                        etValor.setText(text)
+                        etValor.setSelection(text.length)
+
+                        oldReais = text
+
+                        etValor.addTextChangedListener(this)
+                    } else if (s.toString().length < 15){
+                        etValor.removeTextChangedListener(this)
+
+                        etValor.setText("")
+                        oldReais = ""
+
+                        etValor.addTextChangedListener(this)
                     }
-
-                    etValor.setText(text)
-                    etValor.setSelection(text.length)
-
-                    oldReais = text
-
-                    etValor.addTextChangedListener(this)
-                } else if (s.toString().length < 13){
-                    etValor.removeTextChangedListener(this)
-
-                    etValor.setText("")
-                    oldReais = ""
-
-                    etValor.addTextChangedListener(this)
                 }
-            }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {
-            }
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
 
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {
-            }
-        })
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                }
+            })
+        } else {
+            etValor.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {
+                    if(s.toString().length > oldReais.length && s.toString().length < 13) {
+                        etValor.removeTextChangedListener(this)
+
+                        if(oldReais == "") {
+                            val num = s.toString().toFloat() / 100
+                            text = "R$ " + num.toString().replace(".",",")
+                        } else {
+                            val strConvert = (s.toString().trim().replace(",",".").replace("R$", "")).toDouble() * 10
+                            val str = (java.lang.String.format("%.2f", strConvert))
+                            text = "R$ " + str.replace(".",",")
+                        }
+
+                        etValor.setText(text)
+                        etValor.setSelection(text.length)
+
+                        oldReais = text
+
+                        etValor.addTextChangedListener(this)
+                    } else if (s.toString().length < 13){
+                        etValor.removeTextChangedListener(this)
+
+                        etValor.setText("")
+                        oldReais = ""
+
+                        etValor.addTextChangedListener(this)
+                    }
+                }
+
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {
+                }
+            })
+        }
 
         val dbLancamento = FirebaseDatabase.getInstance().getReference("lancamento")
 

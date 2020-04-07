@@ -5,14 +5,19 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
+import java.util.*
+import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,15 +32,19 @@ class MainActivity : AppCompatActivity() {
     lateinit var tvSaldo: TextView
     lateinit var lvLancamentos: ListView
     lateinit var tvNull: TextView
+    lateinit var imOlho: ImageView
 
     //Variáveis globais
     lateinit var categoriaList: MutableList<Categoria>
     lateinit var lancamentoList: MutableList<Lancamento>
+    var mostra = true
+    lateinit var metaList: MutableList<Meta>
 
     //BD
     lateinit var refCategoria: DatabaseReference
     var firebaseAuth: FirebaseAuth? = null
     var firebaseUser: FirebaseUser? = null
+    lateinit var refMeta: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         saldo()
 
         categorias()
+
+        metaListener()
     }
 
     private fun initialise() {
@@ -55,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         tvLimites = findViewById(R.id.tvLimites)
         tvCategorias = findViewById(R.id.tvCategorias)
         tvSair = findViewById(R.id.tvSair)
+        imOlho = findViewById(R.id.imOlho)
 
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth!!.getCurrentUser()
@@ -107,6 +119,20 @@ class MainActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             finish()
             startActivity(intent)
+        }
+
+        imOlho.setOnClickListener {
+            if (mostra) {
+                tvSaldo.setText("- - -")
+                imOlho.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_visibility_off_gray_24dp))
+
+                mostra = false
+            } else {
+                saldo()
+                imOlho.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_visibility_gay_24dp))
+
+                mostra = true
+            }
         }
     }
 
@@ -233,6 +259,50 @@ class MainActivity : AppCompatActivity() {
 
                 value = Categoria(categoriaId!!, "Outros", firebaseUser?.getEmail().toString())
                 refCategoria.child(categoriaId).setValue(value)
+            }
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {}
+    }
+
+    private fun metaListener() {
+        metaList = mutableListOf()
+        refMeta = FirebaseDatabase.getInstance().getReference("meta")
+
+        val query = FirebaseDatabase.getInstance().getReference("meta")
+            .orderByChild("usuario")
+            .equalTo(firebaseUser?.getEmail().toString())
+
+        query.addListenerForSingleValueEvent(metaEventListener)
+    }
+
+    var metaEventListener: ValueEventListener = object : ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            metaList.clear()
+
+            for (snapshot in dataSnapshot.children) {
+                val cat = snapshot.getValue(Meta::class.java)
+                metaList.add(cat!!)
+            }
+
+            val currentDate: String =
+                SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(Date())
+
+            val sort = metaList.sortedBy { it.mes.toInt() }
+            sort.reversed()
+
+            var mesAtual = false
+
+            for (i in metaList.indices) {
+                if (metaList[i].mes.contains(currentDate)) {
+                    mesAtual = true
+                }
+            }
+
+            if (mesAtual == false && sort.isNotEmpty()) {
+                val metaId = refMeta.push().key
+                val meta = Meta(metaId!!, sort[0].econ, sort[0].max, sort[0].min, firebaseUser?.getEmail().toString(), currentDate)
+                refMeta.child(metaId).setValue(meta)
             }
         }
 

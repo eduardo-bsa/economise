@@ -7,13 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".DespesaActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="1dp"
+        android:background="#BDBDBD"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="2dp"
         android:orientation="horizontal"
-        android:paddingTop="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -21,67 +28,58 @@
         <TextView
             android:id="@+id/tvInicio"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_home_gray"
-            android:gravity="center"
             android:text="@string/inicio"
             android:textColor="#B4B4B4"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvGrafico"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_donut_gray"
-            android:gravity="center"
             android:text="@string/grafico"
             android:textColor="#B4B4B4"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvLimites"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_porcentagem_gray"
-            android:gravity="center"
             android:text="@string/metas"
             android:textColor="#B4B4B4"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvCategorias"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_engrenagem_gray"
-            android:gravity="center"
             android:text="@string/categorias"
             android:textColor="#B4B4B4"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSair"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:drawableTop="@drawable/ic_sair_gray"
-            android:gravity="center"
             android:text="@string/sair"
             android:textColor="#B4B4B4"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
     </LinearLayout>
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#BDBDBD"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
