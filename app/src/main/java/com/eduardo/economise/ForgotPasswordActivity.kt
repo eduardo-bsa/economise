@@ -5,11 +5,14 @@ import android.graphics.Color
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordActivity : AppCompatActivity() {
@@ -19,6 +22,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
     lateinit var imBack: ImageView
+    lateinit var tiEmail: TextInputLayout
 
     //BD
     private var mAuth: FirebaseAuth? = null
@@ -34,6 +38,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.et_email) as EditText
         btnSubmit = findViewById(R.id.btn_submit) as Button
         imBack = findViewById(R.id.imBack)
+        tiEmail = findViewById(R.id.tiEmail)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -50,6 +55,16 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         progressBar.getIndeterminateDrawable().setColorFilter(
             Color.rgb(0,126,0), android.graphics.PorterDuff.Mode.SRC_IN)
+
+        etEmail?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiEmail.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
 
         if (!TextUtils.isEmpty(email)) {
             progressBar.setVisibility(View.VISIBLE)
@@ -72,7 +87,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     }
                 }
         } else {
-            Toast.makeText(this,"Entre com um e-mail válido.", Toast.LENGTH_SHORT).show()
+            tiEmail.error = "Preencha com o seu e-mail"
         }
     }
 

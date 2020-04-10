@@ -4,11 +4,14 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -24,6 +27,10 @@ class CreateAccountActivity : AppCompatActivity() {
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
     lateinit var imBack: ImageView
+    lateinit var tiFirstName: TextInputLayout
+    lateinit var tiLastName: TextInputLayout
+    lateinit var tiEmail: TextInputLayout
+    lateinit var tiSenha: TextInputLayout
 
     //BD
     private var mDatabaseReference: DatabaseReference? = null
@@ -50,6 +57,10 @@ class CreateAccountActivity : AppCompatActivity() {
         etPassword = findViewById(R.id.et_password) as EditText
         btnCreateAccount = findViewById(R.id.btn_register) as Button
         imBack = findViewById(R.id.imBack)
+        tiFirstName = findViewById(R.id.tiFirstName)
+        tiLastName = findViewById(R.id.tiLastName)
+        tiEmail = findViewById(R.id.tiEmail)
+        tiSenha = findViewById(R.id.tiSenha)
 
         mDatabase = FirebaseDatabase.getInstance()
         mDatabaseReference = mDatabase!!.reference!!.child("users")
@@ -72,6 +83,46 @@ class CreateAccountActivity : AppCompatActivity() {
 
         progressBar.getIndeterminateDrawable().setColorFilter(
             Color.rgb(0,126,0), android.graphics.PorterDuff.Mode.SRC_IN)
+
+        etFirstName?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiFirstName.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        etLastName?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiLastName.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        etEmail?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiEmail.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        etPassword?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiSenha.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
 
         if (!TextUtils.isEmpty(firstName) && !TextUtils.isEmpty(lastName) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             progressBar.setVisibility(View.VISIBLE)
@@ -100,9 +151,22 @@ class CreateAccountActivity : AppCompatActivity() {
                 }
 
         } else {
-            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-        }
+            if (TextUtils.isEmpty(firstName)) {
+                tiFirstName.error = "Preencha com o seu primeiro nome"
+            }
 
+            if (TextUtils.isEmpty(lastName)) {
+                tiLastName.error = "Preencha com o seu sobrenome"
+            }
+
+            if (TextUtils.isEmpty(email)) {
+                tiEmail.error = "Preencha com o seu e-mail"
+            }
+
+            if (TextUtils.isEmpty(password)) {
+                tiSenha.error = "Escolha uma senha"
+            }
+        }
     }
 
     private fun updateUserInfoandUi() {

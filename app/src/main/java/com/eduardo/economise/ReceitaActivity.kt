@@ -1,5 +1,6 @@
 package com.eduardo.economise
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
@@ -7,15 +8,15 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ReceitaActivity : AppCompatActivity() {
@@ -24,7 +25,7 @@ class ReceitaActivity : AppCompatActivity() {
     lateinit var date: String
     lateinit var oldReais: String
     lateinit var text: String
-    lateinit var categoria: String
+    var categoria = ""
     lateinit var lancamentoList: MutableList<Lancamento>
     lateinit var categoriaList: MutableList<Categoria>
 
@@ -39,7 +40,9 @@ class ReceitaActivity : AppCompatActivity() {
     lateinit var btnSave: Button
     lateinit var etReais: EditText
     lateinit var tvData: TextView
-    lateinit var spCategoria: Spinner
+    lateinit var etCategoria: EditText
+    lateinit var tiCategoria: TextInputLayout
+    lateinit var tiData: TextInputLayout
 
     //Date Listener
     lateinit var setData: OnDateSetListener
@@ -58,8 +61,6 @@ class ReceitaActivity : AppCompatActivity() {
         dataListener()
 
         currencyListener()
-
-        spinnerListener()
     }
 
     private fun initialise() {
@@ -73,6 +74,10 @@ class ReceitaActivity : AppCompatActivity() {
         etTitle = findViewById(R.id.etTitle)
         tvData = findViewById(R.id.tvData)
         btnSave = findViewById(R.id.btnSave)
+        etCategoria = findViewById(R.id.etCategoria)
+        tiData = findViewById(R.id.tiData)
+        tiCategoria = findViewById(R.id.tiCategoria)
+
 
         lancamentoList = mutableListOf()
         ref = FirebaseDatabase.getInstance().getReference("lancamento")
@@ -122,9 +127,11 @@ class ReceitaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnSave.setOnClickListener {
-            save()
-        }
+        btnSave.setOnClickListener { save() }
+
+        etCategoria.setOnClickListener { categoriaListener() }
+
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun dataListener() {
@@ -207,9 +214,7 @@ class ReceitaActivity : AppCompatActivity() {
         })
     }
 
-    private fun spinnerListener() {
-        spCategoria = findViewById(R.id.spCategoria) as Spinner
-
+    private fun categoriaListener() {
         categoriaList = mutableListOf()
 
         val query = FirebaseDatabase.getInstance().getReference("categoria")
@@ -224,12 +229,36 @@ class ReceitaActivity : AppCompatActivity() {
         val valor = etReais.text.toString()
         val data = tvData.text.toString()
 
+        tvData?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiData.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        etCategoria?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiCategoria.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
         if (valor.isEmpty()) {
             etReais.error = "Digite o valor da receita"
         }
 
         if (data.isEmpty()) {
-            tvData.error = "Escolha a data da sua receita"
+            tiData.error = "Escolha a data da sua receita"
+        }
+
+        if (categoria == "") {
+            tiCategoria.error = "Escolha uma categoria"
         }
 
         if (!valor.isEmpty() && !data.isEmpty()) {
@@ -259,21 +288,40 @@ class ReceitaActivity : AppCompatActivity() {
                 categoriaList.add(cat!!)
             }
 
-            val option = ArrayList<String>()
+            val option: MutableList<String> = mutableListOf()
 
             categoriaList.forEach { t: Categoria ->
                 option.add(t.categoria.trim())
             }
 
-            spCategoria.adapter = ArrayAdapter<String>(this@ReceitaActivity, R.layout.spinner, option)
+            val builder = AlertDialog.Builder(this@ReceitaActivity)
 
-            spCategoria.onItemSelectedListener = object : OnItemSelectedListener{
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
+            val inflater = LayoutInflater.from(this@ReceitaActivity)
 
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    categoria = option.get(p2)
-                }
+            val view = inflater.inflate(R.layout.dropdown, null)
+
+            val lvDrop = view.findViewById<ListView>(R.id.lvDrop)
+
+            val adapter = DropAdapter(
+                this@ReceitaActivity,
+                R.layout.list_dropdown,
+                option
+            )
+            lvDrop.adapter = adapter
+
+            builder.setView(view)
+
+            val alert = builder.create()
+            alert.show()
+
+            lvDrop.setOnItemClickListener {
+                    adapterView,
+                    view,
+                    position,
+                    l
+                -> etCategoria.setText(option[position])
+                categoria = option[position]
+                alert.dismiss()
             }
         }
 

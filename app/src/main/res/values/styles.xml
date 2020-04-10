@@ -6,13 +6,13 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="ReceitaTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="ReceitaTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/receitaSecundary</item>
         <item name="colorPrimaryDark">@color/receitaPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DespesaTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="DespesaTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/despesaSecundary</item>
         <item name="colorPrimaryDark">@color/despesaPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>

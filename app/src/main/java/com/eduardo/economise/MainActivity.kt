@@ -3,6 +3,7 @@ package com.eduardo.economise
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -180,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
                     tvSaldo.setTextColor(Color.parseColor("#46A048"))
                 }
-                val sort = lancamentoList.sortedBy { it.data.substring(3,5)+it.data.substring(0,2).toInt() }
+                val sort = lancamentoList.sortedBy { (it.data.substring(6)+it.data.substring(3,5)+it.data.substring(0,2)).toBigInteger() }
 
                 val adapter = LancamentoAdapter(this@MainActivity, R.layout.list_lancamento, sort.reversed())
                 lvLancamentos.adapter = adapter

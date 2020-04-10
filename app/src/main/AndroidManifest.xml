@@ -18,11 +18,13 @@
         <activity
             android:name=".DespesaActivity"
             android:label="Despesa"
-            android:theme="@style/DespesaTheme" />
+            android:theme="@style/DespesaTheme"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ReceitaActivity"
             android:label="Receita"
-            android:theme="@style/ReceitaTheme" />
+            android:theme="@style/ReceitaTheme"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".ForgotPasswordActivity" />
         <activity
             android:name=".MainActivity"

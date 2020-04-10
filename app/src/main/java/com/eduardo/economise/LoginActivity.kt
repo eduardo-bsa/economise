@@ -4,10 +4,13 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -25,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
     lateinit var progressBar: ProgressBar
     lateinit var imLogin: ImageView
     lateinit var imBack: ImageView
+    lateinit var ti_email: TextInputLayout
+    lateinit var ti_password: TextInputLayout
 
     //BD
     private var mAuth: FirebaseAuth? = null
@@ -43,6 +48,8 @@ class LoginActivity : AppCompatActivity() {
         btnLogin = findViewById(R.id.btn_login) as Button
         imLogin = findViewById(R.id.imLogin)
         imBack = findViewById(R.id.imBack)
+        ti_email = findViewById(R.id.ti_email)
+        ti_password = findViewById(R.id.ti_password)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -77,6 +84,26 @@ class LoginActivity : AppCompatActivity() {
         progressBar.getIndeterminateDrawable().setColorFilter(
             Color.rgb(0,126,0), android.graphics.PorterDuff.Mode.SRC_IN)
 
+        etEmail?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                ti_email.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        etPassword?.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                ti_password.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             progressBar.setVisibility(View.VISIBLE)
 
@@ -94,7 +121,13 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         } else {
-            Toast.makeText(this@LoginActivity, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+            if (TextUtils.isEmpty(email)) {
+                ti_email.error = "Preencha com seu e-mail"
+            }
+
+            if (TextUtils.isEmpty(password)) {
+                ti_password.error = "Preencha sua senha"
+            }
         }
     }
 
