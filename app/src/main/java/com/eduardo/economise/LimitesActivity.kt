@@ -1,14 +1,14 @@
 package com.eduardo.economise
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -38,6 +38,7 @@ class LimitesActivity : AppCompatActivity() {
     lateinit var textMin: String
     lateinit var metaList: MutableList<Meta>
     lateinit var valList: MutableList<Meta>
+    var progressBar: AlertDialog? = null
 
     //BD
     lateinit var ref: DatabaseReference
@@ -54,6 +55,8 @@ class LimitesActivity : AppCompatActivity() {
     }
 
     private fun initialise() {
+        progressBar = progressBar()
+
         tvGrafico = findViewById(R.id.tvGrafico)
         tvInicio = findViewById(R.id.tvInicio)
         tvCategorias = findViewById(R.id.tvCategorias)
@@ -106,6 +109,8 @@ class LimitesActivity : AppCompatActivity() {
     }
 
     private fun save() {
+        progressBar = progressBar()
+
         metaList = mutableListOf()
 
         val query = FirebaseDatabase.getInstance().getReference("meta")
@@ -153,6 +158,8 @@ class LimitesActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Metas salvas com sucesso", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            progressBar?.dismiss()
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}
@@ -201,6 +208,8 @@ class LimitesActivity : AppCompatActivity() {
                 currencyListenerMax("")
                 currencyListenerMin("")
             }
+
+            progressBar?.dismiss()
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}
@@ -336,5 +345,29 @@ class LimitesActivity : AppCompatActivity() {
                                        before: Int, count: Int) {
             }
         })
+    }
+
+    fun progressBar(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        val inflater = LayoutInflater.from(this)
+
+        val view = inflater.inflate(R.layout.progress_bar, null)
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
+        progressBar.getIndeterminateDrawable().setColorFilter(
+            Color.rgb(0,163,81), android.graphics.PorterDuff.Mode.SRC_IN)
+
+        builder.setView(view)
+
+        val alert = builder.create()
+
+        alert.show()
+        alert.getWindow()?.setLayout(600, 600)
+        alert.setCancelable(false)
+        alert.setCanceledOnTouchOutside(false)
+
+        return alert
     }
 }

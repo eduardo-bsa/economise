@@ -1,14 +1,15 @@
 package com.eduardo.economise
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
@@ -18,7 +19,6 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.*
-import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var lancamentoList: MutableList<Lancamento>
     var mostra = true
     lateinit var metaList: MutableList<Meta>
+    private val PREF = "com.eduardo.economise.PREF"
+    var progressBar: AlertDialog? = null
 
     //BD
     lateinit var refCategoria: DatabaseReference
@@ -53,6 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         initialise()
 
+        escondeSaldo()
+
         saldo()
 
         categorias()
@@ -61,6 +65,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialise() {
+        progressBar = progressBar()
+
         btnReceita = findViewById(R.id.btnReceita)
         btnDespesa = findViewById(R.id.btnDespesa)
         tvGrafico = findViewById(R.id.tvGrafico)
@@ -68,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         tvCategorias = findViewById(R.id.tvCategorias)
         tvSair = findViewById(R.id.tvSair)
         imOlho = findViewById(R.id.imOlho)
+        tvSaldo = findViewById(R.id.tvSaldo)
 
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth!!.getCurrentUser()
@@ -121,25 +128,13 @@ class MainActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
-
-        imOlho.setOnClickListener {
-            if (mostra) {
-                tvSaldo.setText("- - -")
-                imOlho.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_visibility_off_gray_24dp))
-
-                mostra = false
-            } else {
-                saldo()
-                imOlho.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_visibility_gay_24dp))
-
-                mostra = true
-            }
-        }
     }
 
     private fun saldo() {
-        tvSaldo = findViewById(R.id.tvSaldo)
         lancamentoList = mutableListOf()
+
+        val sp: SharedPreferences? =
+            this.getSharedPreferences(PREF, Context.MODE_PRIVATE)
 
         val queryLancamento = FirebaseDatabase.getInstance().getReference("lancamento")
             .orderByChild("usuario")
@@ -173,20 +168,26 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN) < 0.toBigDecimal()) {
-                    tvSaldo.text = "R$ ${BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN).toString().replace(".",",")}"
+                    if (mostra) {
+                        tvSaldo.text = "R$ ${BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN).toString().replace(".",",")}"
 
-                    tvSaldo.setTextColor(Color.parseColor("#B84A43"))
+                        tvSaldo.setTextColor(Color.parseColor("#B84A43"))
+                    }
                 } else if (BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN) > 0.toBigDecimal()) {
-                    tvSaldo.text = "R$ ${BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN).toString().replace(".",",")}"
+                    if (mostra) {
+                        tvSaldo.text = "R$ ${BigDecimal(saldo).setScale(2, RoundingMode.HALF_EVEN).toString().replace(".",",")}"
 
-                    tvSaldo.setTextColor(Color.parseColor("#46A048"))
+                        tvSaldo.setTextColor(Color.parseColor("#46A048"))
+                    }
                 }
                 val sort = lancamentoList.sortedBy { (it.data.substring(6)+it.data.substring(3,5)+it.data.substring(0,2)).toBigInteger() }
 
                 val adapter = LancamentoAdapter(this@MainActivity, R.layout.list_lancamento, sort.reversed())
                 lvLancamentos.adapter = adapter
             } else {
-                tvSaldo.text = ""
+                if (mostra) {
+                    tvSaldo.text = ""
+                }
 
                 lvLancamentos.setVisibility(View.INVISIBLE)
 
@@ -194,6 +195,8 @@ class MainActivity : AppCompatActivity() {
 
                 tvNull.text = "Realize lançamentos, pelos botões de Receita e Despesa"
             }
+
+            progressBar?.dismiss()
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}
@@ -261,6 +264,8 @@ class MainActivity : AppCompatActivity() {
                 value = Categoria(categoriaId!!, "Outros", firebaseUser?.getEmail().toString(), "Ambos")
                 refCategoria.child(categoriaId).setValue(value)
 
+                categoriaId = refCategoria.push().key
+
                 value = Categoria(categoriaId!!, "Salário", firebaseUser?.getEmail().toString(), "Receita")
                 refCategoria.child(categoriaId).setValue(value)
             }
@@ -311,5 +316,57 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}
+    }
+
+    fun escondeSaldo() {
+        val sp: SharedPreferences? =
+            this.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+
+        if (sp?.getString("mostra", "") == "N") {
+            tvSaldo.setText("- - -")
+        }
+
+        mostra = sp?.getString("mostra", "") != "N"
+
+        imOlho.setOnClickListener {
+            if (mostra) {
+                tvSaldo.setText("- - -")
+                tvSaldo.setTextColor(Color.parseColor("#000"))
+                imOlho.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_visibility_off_gray_24dp))
+
+                mostra = false
+                sp?.edit()?.putString("mostra", "N")?.apply()
+            } else {
+                saldo()
+                imOlho.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_visibility_gay_24dp))
+
+                mostra = true
+                sp?.edit()?.putString("mostra", "S")?.apply()
+            }
+        }
+    }
+
+    fun progressBar(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        val inflater = LayoutInflater.from(this)
+
+        val view = inflater.inflate(R.layout.progress_bar, null)
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
+        progressBar.getIndeterminateDrawable().setColorFilter(
+            Color.rgb(0,163,81), android.graphics.PorterDuff.Mode.SRC_IN)
+
+        builder.setView(view)
+
+        val alert = builder.create()
+
+        alert.show()
+        alert.getWindow()?.setLayout(600, 600)
+        alert.setCancelable(false)
+        alert.setCanceledOnTouchOutside(false)
+
+        return alert
     }
 }

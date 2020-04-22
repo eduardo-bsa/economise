@@ -1,13 +1,13 @@
 package com.eduardo.economise
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.anychart.AnyChart
 import com.anychart.AnyChartView
@@ -53,6 +53,7 @@ class GraficoActivity : AppCompatActivity() {
     lateinit var mesList: MutableList<String>
     lateinit var valList: MutableList<Meta>
     var optionSpinner = ""
+    var progressBar: AlertDialog? = null
 
     //BD
     var firebaseUser: FirebaseUser? = null
@@ -70,10 +71,18 @@ class GraficoActivity : AppCompatActivity() {
     }
 
     private fun initialise() {
+        progressBar = progressBar()
+
         tvInicio = findViewById(R.id.tvInicio)
         tvLimites = findViewById(R.id.tvLimites)
         tvCategorias = findViewById(R.id.tvCategorias)
         tvSair = findViewById(R.id.tvSair)
+        tvEcon = findViewById(R.id.tvEcon)
+        tvMaxValor = findViewById(R.id.tvMaxValor)
+        tvMinReceita = findViewById(R.id.tvMinReceita)
+        tvGasto = findViewById(R.id.tvGasto)
+        tvReceita = findViewById(R.id.tvReceita)
+        tvSaldo = findViewById(R.id.tvSaldo)
 
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth!!.getCurrentUser()
@@ -165,14 +174,12 @@ class GraficoActivity : AppCompatActivity() {
             anyChartView = findViewById(R.id.any_chart_view)
             tvNull = findViewById(R.id.tvNull)
 
-            tvGasto = findViewById(R.id.tvGasto)
-            tvReceita = findViewById(R.id.tvReceita)
-            tvSaldo = findViewById(R.id.tvSaldo)
-
             spMes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(p0: AdapterView<*>?) { }
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    progressBar = progressBar()
+
                     var indice = 0
                     var despesa = 0
 
@@ -265,15 +272,43 @@ class GraficoActivity : AppCompatActivity() {
 
                     valList = mutableListOf()
 
-                    tvEcon = findViewById(R.id.tvEcon)
-                    tvMaxValor = findViewById(R.id.tvMaxValor)
-                    tvMinReceita = findViewById(R.id.tvMinReceita)
-
                     val queryMetas = FirebaseDatabase.getInstance().getReference("meta")
                         .orderByChild("usuario")
                         .equalTo(firebaseUser?.getEmail().toString())
 
                     queryMetas.addListenerForSingleValueEvent(metasEventListener)
+
+                    if (tvSaldo.text.toString().isNotEmpty() && tvEcon.text.toString().isNotEmpty() && tvEcon.text.toString() != "R$ 0,00") {
+                        if (tvSaldo.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat() >
+                            tvEcon.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat()) {
+                            tvSaldo.setTextColor(Color.parseColor("#00A351"))
+                        } else if (tvSaldo.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat() <
+                            tvEcon.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat()) {
+                            tvSaldo.setTextColor(Color.parseColor("#B84A43"))
+                        }
+                    }
+
+                    if (tvGasto.text.toString().isNotEmpty() && tvMaxValor.text.toString().isNotEmpty() && tvMaxValor.text.toString() != "R$ 0,00") {
+                        if (tvGasto.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat() >
+                            tvMaxValor.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat()) {
+                            tvGasto.setTextColor(Color.parseColor("#B84A43"))
+                        } else if (tvGasto.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat() <
+                            tvMaxValor.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat()) {
+                            tvGasto.setTextColor(Color.parseColor("#00A351"))
+                        }
+                    }
+
+                    if (tvReceita.text.toString().isNotEmpty() && tvMinReceita.text.toString().isNotEmpty() && tvMinReceita.text.toString() != "R$ 0,00") {
+                        if (tvReceita.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat() >
+                            tvMinReceita.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat()) {
+                            tvReceita.setTextColor(Color.parseColor("#00A351"))
+                        } else if (tvReceita.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat() <
+                            tvMinReceita.text.toString().replace("R$ ", "").replace(",", ".").replace("-", "").toFloat()) {
+                            tvReceita.setTextColor(Color.parseColor("#B84A43"))
+                        }
+                    }
+
+                    progressBar?.dismiss()
                 }
             }
             anyChartView.setChart(pie)
@@ -284,10 +319,6 @@ class GraficoActivity : AppCompatActivity() {
 
     private fun getMetas() {
         valList = mutableListOf()
-
-        tvEcon = findViewById(R.id.tvEcon)
-        tvMaxValor = findViewById(R.id.tvMaxValor)
-        tvMinReceita = findViewById(R.id.tvMinReceita)
 
         val queryMetas = FirebaseDatabase.getInstance().getReference("meta")
             .orderByChild("usuario")
@@ -310,8 +341,6 @@ class GraficoActivity : AppCompatActivity() {
                     tvEcon.setText(valList[i].econ)
                     tvMaxValor.setText(valList[i].max)
                     tvMinReceita.setText(valList[i].min)
-
-                    Log.d("teste" , optionSpinner)
                 } else {
                     tvEcon.setText("R$ 0,00")
                     tvMaxValor.setText("R$ 0,00")
@@ -320,8 +349,34 @@ class GraficoActivity : AppCompatActivity() {
                     Log.d("sera" , optionSpinner)
                 }
             }
+
+            progressBar?.dismiss()
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}
+    }
+
+    fun progressBar(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        val inflater = LayoutInflater.from(this)
+
+        val view = inflater.inflate(R.layout.progress_bar, null)
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
+        progressBar.getIndeterminateDrawable().setColorFilter(
+            Color.rgb(0,163,81), android.graphics.PorterDuff.Mode.SRC_IN)
+
+        builder.setView(view)
+
+        val alert = builder.create()
+
+        alert.show()
+        alert.getWindow()?.setLayout(600, 600)
+        alert.setCancelable(false)
+        alert.setCanceledOnTouchOutside(false)
+
+        return alert
     }
 }

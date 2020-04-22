@@ -2,6 +2,7 @@ package com.eduardo.economise
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -35,6 +36,7 @@ class CategoriasActivity : AppCompatActivity() {
     lateinit var categoriaList: MutableList<Categoria>
     private var novaCategoria: String? = null
     lateinit var tipoList: MutableList<String>
+    var progressBar: AlertDialog? = null
 
     //BD
     var firebaseUser: FirebaseUser? = null
@@ -51,6 +53,8 @@ class CategoriasActivity : AppCompatActivity() {
     }
 
     private fun initialise() {
+        progressBar = progressBar()
+
         tvGrafico = findViewById(R.id.tvGrafico)
         tvLimites = findViewById(R.id.tvLimites)
         tvCategorias = findViewById(R.id.tvCategorias)
@@ -107,6 +111,8 @@ class CategoriasActivity : AppCompatActivity() {
     }
 
     private fun novaCategoria() {
+        progressBar = progressBar()
+
         etCategoria = findViewById(R.id.etCategoria)
         novaCategoria = etCategoria.text.toString()
         val tipo = etTipo.text.toString()
@@ -148,6 +154,8 @@ class CategoriasActivity : AppCompatActivity() {
 
             Toast.makeText(this@CategoriasActivity, "Categoria inserida", Toast.LENGTH_SHORT).show()
         }
+
+        progressBar?.dismiss()
     }
 
     private fun categorias() {
@@ -175,6 +183,8 @@ class CategoriasActivity : AppCompatActivity() {
             } else {
                 lvCategorias.setVisibility(View.INVISIBLE)
             }
+
+            progressBar?.dismiss()
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}
@@ -215,5 +225,29 @@ class CategoriasActivity : AppCompatActivity() {
             -> etTipo.setText(tipoList[position])
             alert.dismiss()
         }
+    }
+
+    fun progressBar(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        val inflater = LayoutInflater.from(this)
+
+        val view = inflater.inflate(R.layout.progress_bar, null)
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
+        progressBar.getIndeterminateDrawable().setColorFilter(
+            Color.rgb(0,163,81), android.graphics.PorterDuff.Mode.SRC_IN)
+
+        builder.setView(view)
+
+        val alert = builder.create()
+
+        alert.show()
+        alert.getWindow()?.setLayout(600, 600)
+        alert.setCancelable(false)
+        alert.setCanceledOnTouchOutside(false)
+
+        return alert
     }
 }

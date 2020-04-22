@@ -82,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
         layout = findViewById(R.id.layout)
 
         progressBar.getIndeterminateDrawable().setColorFilter(
-            Color.rgb(0,126,0), android.graphics.PorterDuff.Mode.SRC_IN)
+            Color.rgb(0,163,81), android.graphics.PorterDuff.Mode.SRC_IN)
 
         etEmail?.addTextChangedListener(object : TextWatcher {
 

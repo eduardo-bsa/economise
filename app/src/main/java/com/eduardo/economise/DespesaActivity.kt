@@ -3,6 +3,7 @@ package com.eduardo.economise
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,6 +28,7 @@ class DespesaActivity : AppCompatActivity() {
     var categoria = ""
     lateinit var lancamentoList: MutableList<Lancamento>
     lateinit var categoriaList: MutableList<Categoria>
+    var progressBar: AlertDialog? = null
 
     //UI
     lateinit var tvInicio: TextView
@@ -214,6 +216,8 @@ class DespesaActivity : AppCompatActivity() {
     }
 
     private fun categoriaListener() {
+        progressBar = progressBar()
+
         categoriaList = mutableListOf()
 
         val query = FirebaseDatabase.getInstance().getReference("categoria")
@@ -224,11 +228,13 @@ class DespesaActivity : AppCompatActivity() {
     }
 
     private fun save() {
+        progressBar = progressBar()
+
         val desc = etTitle.text.toString()
         val valor = etReais.text.toString()
         val data = tvData.text.toString()
 
-        tvData?.addTextChangedListener(object : TextWatcher {
+        tvData.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
                 tiData.error = null
@@ -276,6 +282,7 @@ class DespesaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        progressBar?.dismiss()
     }
 
     var valueEventListener: ValueEventListener = object : ValueEventListener {
@@ -324,9 +331,34 @@ class DespesaActivity : AppCompatActivity() {
                 categoria = option[position]
                 alert.dismiss()
             }
+
+            progressBar?.dismiss()
         }
 
         override fun onCancelled(databaseError: DatabaseError) {}
     }
 
+    fun progressBar(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+
+        val inflater = LayoutInflater.from(this)
+
+        val view = inflater.inflate(R.layout.progress_bar, null)
+
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
+        progressBar.getIndeterminateDrawable().setColorFilter(
+            Color.rgb(0,163,81), android.graphics.PorterDuff.Mode.SRC_IN)
+
+        builder.setView(view)
+
+        val alert = builder.create()
+
+        alert.show()
+        alert.getWindow()?.setLayout(600, 600)
+        alert.setCancelable(false)
+        alert.setCanceledOnTouchOutside(false)
+
+        return alert
+    }
 }

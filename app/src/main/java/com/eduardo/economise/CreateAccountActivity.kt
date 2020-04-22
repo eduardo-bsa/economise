@@ -19,16 +19,12 @@ import com.google.firebase.database.FirebaseDatabase
 class CreateAccountActivity : AppCompatActivity() {
 
     //UI
-    private var etFirstName: EditText? = null
-    private var etLastName: EditText? = null
     private var etEmail: EditText? = null
     private var etPassword: EditText? = null
     private var btnCreateAccount: Button? = null
     lateinit var layout: View
     lateinit var progressBar: ProgressBar
     lateinit var imBack: ImageView
-    lateinit var tiFirstName: TextInputLayout
-    lateinit var tiLastName: TextInputLayout
     lateinit var tiEmail: TextInputLayout
     lateinit var tiSenha: TextInputLayout
 
@@ -38,8 +34,6 @@ class CreateAccountActivity : AppCompatActivity() {
     private var mAuth: FirebaseAuth? = null
 
     //Variáveis globais
-    private var firstName: String? = null
-    private var lastName: String? = null
     private var email: String? = null
     private var password: String? = null
 
@@ -51,14 +45,10 @@ class CreateAccountActivity : AppCompatActivity() {
     }
 
     private fun initialise() {
-        etFirstName = findViewById(R.id.et_first_name) as EditText
-        etLastName = findViewById(R.id.et_last_name) as EditText
         etEmail = findViewById(R.id.et_email) as EditText
         etPassword = findViewById(R.id.et_password) as EditText
         btnCreateAccount = findViewById(R.id.btn_register) as Button
         imBack = findViewById(R.id.imBack)
-        tiFirstName = findViewById(R.id.tiFirstName)
-        tiLastName = findViewById(R.id.tiLastName)
         tiEmail = findViewById(R.id.tiEmail)
         tiSenha = findViewById(R.id.tiSenha)
 
@@ -73,8 +63,6 @@ class CreateAccountActivity : AppCompatActivity() {
 
     private fun createNewAccount() {
 
-        firstName = etFirstName?.text.toString()
-        lastName = etLastName?.text.toString()
         email = etEmail?.text.toString()
         password = etPassword?.text.toString()
 
@@ -82,27 +70,7 @@ class CreateAccountActivity : AppCompatActivity() {
         layout = findViewById(R.id.layout)
 
         progressBar.getIndeterminateDrawable().setColorFilter(
-            Color.rgb(0,126,0), android.graphics.PorterDuff.Mode.SRC_IN)
-
-        etFirstName?.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                tiFirstName.error = null
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
-
-        etLastName?.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {
-                tiLastName.error = null
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        })
+            Color.rgb(0,163,81), android.graphics.PorterDuff.Mode.SRC_IN)
 
         etEmail?.addTextChangedListener(object : TextWatcher {
 
@@ -124,7 +92,7 @@ class CreateAccountActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        if (!TextUtils.isEmpty(firstName) && !TextUtils.isEmpty(lastName) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             progressBar.setVisibility(View.VISIBLE)
 
             enableViews(layout, false)
@@ -138,10 +106,6 @@ class CreateAccountActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val userId = mAuth!!.currentUser!!.uid
 
-                        val currentUserDb = mDatabaseReference!!.child(userId)
-                        currentUserDb.child("firstName").setValue(firstName)
-                        currentUserDb.child("lastName").setValue(lastName)
-
                         updateUserInfoandUi()
                     } else if (password!!.length < 6) {
                         Toast.makeText(this@CreateAccountActivity, "A senha deve ter no mínimo seis caracteres", Toast.LENGTH_SHORT).show()
@@ -151,14 +115,6 @@ class CreateAccountActivity : AppCompatActivity() {
                 }
 
         } else {
-            if (TextUtils.isEmpty(firstName)) {
-                tiFirstName.error = "Preencha com o seu primeiro nome"
-            }
-
-            if (TextUtils.isEmpty(lastName)) {
-                tiLastName.error = "Preencha com o seu sobrenome"
-            }
-
             if (TextUtils.isEmpty(email)) {
                 tiEmail.error = "Preencha com o seu e-mail"
             }
