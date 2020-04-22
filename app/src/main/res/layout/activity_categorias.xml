@@ -3,21 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CategoriasActivity">
-
-    <TextView
-        android:id="@+id/tvCategoriaLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/nova_categoria_label"
-        android:textColor="#000"
-        android:textSize="17dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivSave"
@@ -25,9 +14,9 @@
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/ic_check"
-        app:layout_constraintBottom_toBottomOf="@+id/etCategoria"
-        app:layout_constraintStart_toEndOf="@+id/etCategoria"
-        app:layout_constraintTop_toTopOf="@+id/etCategoria" />
+        app:layout_constraintBottom_toBottomOf="@+id/tiTipo"
+        app:layout_constraintStart_toEndOf="@+id/tiCategoria"
+        app:layout_constraintTop_toTopOf="@+id/tiCategoria" />
 
     <ListView
         android:id="@+id/lvCategorias"
@@ -40,23 +29,71 @@
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCategoria" />
+        app:layout_constraintTop_toBottomOf="@+id/viewCabecalho" />
 
-    <EditText
-        android:id="@+id/etCategoria"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:maxLength="25"
-        android:background="@drawable/categoria_edittext_bg"
-        android:hint="@string/nova_cat_hint"
-        android:textAlignment="center"
-        android:textColor="#000"
-        android:textColorHint="#B4B4B4"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/tiCategoria"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="20dp"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:errorEnabled="true"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="#000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCategoriaLabel" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:hint="@string/nova_categoria"
+            android:maxLength="200" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiTipo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_height="wrap_content"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="#000"
+        app:endIconDrawable="@drawable/ic_arrow_drop_down_gray_24dp"
+        app:endIconMode="custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiCategoria">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTipo"
+            android:layout_width="match_parent"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:hint="@string/tipo_lancamento" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:id="@+id/viewCabecalho"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="20dp"
+        android:background="#DCDCDC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiTipo" />
 
     <View
         android:id="@+id/view"

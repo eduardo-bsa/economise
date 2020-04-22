@@ -229,7 +229,7 @@ class ReceitaActivity : AppCompatActivity() {
         val valor = etReais.text.toString()
         val data = tvData.text.toString()
 
-        tvData?.addTextChangedListener(object : TextWatcher {
+        tvData.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
                 tiData.error = null
@@ -291,7 +291,9 @@ class ReceitaActivity : AppCompatActivity() {
             val option: MutableList<String> = mutableListOf()
 
             categoriaList.forEach { t: Categoria ->
-                option.add(t.categoria.trim())
+                if (t.tipo != "Despesa") {
+                    option.add(t.categoria.trim())
+                }
             }
 
             val builder = AlertDialog.Builder(this@ReceitaActivity)

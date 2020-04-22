@@ -223,42 +223,45 @@ class MainActivity : AppCompatActivity() {
             if (categoriaList.isEmpty()) {
                 var categoriaId = refCategoria.push().key
 
-                var value = Categoria(categoriaId!!, "Alimentação", firebaseUser?.getEmail().toString())
+                var value = Categoria(categoriaId!!, "Alimentação", firebaseUser?.getEmail().toString(), "Despesa")
                 refCategoria.child(categoriaId).setValue(value)
 
                 categoriaId = refCategoria.push().key
 
-                value = Categoria(categoriaId!!, "Bares e restaurantes", firebaseUser?.getEmail().toString())
+                value = Categoria(categoriaId!!, "Bares e restaurantes", firebaseUser?.getEmail().toString(), "Despesa")
                 refCategoria.child(categoriaId).setValue(value)
 
                 categoriaId = refCategoria.push().key
 
-                value = Categoria(categoriaId!!, "Casa", firebaseUser?.getEmail().toString())
+                value = Categoria(categoriaId!!, "Casa", firebaseUser?.getEmail().toString(), "Despesa")
                 refCategoria.child(categoriaId).setValue(value)
 
                 categoriaId = refCategoria.push().key
 
-                value = Categoria(categoriaId!!, "Transporte", firebaseUser?.getEmail().toString())
+                value = Categoria(categoriaId!!, "Transporte", firebaseUser?.getEmail().toString(), "Despesa")
                 refCategoria.child(categoriaId).setValue(value)
 
                 categoriaId = refCategoria.push().key
 
-                value = Categoria(categoriaId!!, "Educação", firebaseUser?.getEmail().toString())
+                value = Categoria(categoriaId!!, "Educação", firebaseUser?.getEmail().toString(), "Despesa")
                 refCategoria.child(categoriaId).setValue(value)
 
                 categoriaId = refCategoria.push().key
 
-                value = Categoria(categoriaId!!, "Mercado", firebaseUser?.getEmail().toString())
+                value = Categoria(categoriaId!!, "Mercado", firebaseUser?.getEmail().toString(), "Despesa")
                 refCategoria.child(categoriaId).setValue(value)
 
                 categoriaId = refCategoria.push().key
 
-                value = Categoria(categoriaId!!, "Saúde", firebaseUser?.getEmail().toString())
+                value = Categoria(categoriaId!!, "Saúde", firebaseUser?.getEmail().toString(), "Despesa")
                 refCategoria.child(categoriaId).setValue(value)
 
                 categoriaId = refCategoria.push().key
 
-                value = Categoria(categoriaId!!, "Outros", firebaseUser?.getEmail().toString())
+                value = Categoria(categoriaId!!, "Outros", firebaseUser?.getEmail().toString(), "Ambos")
+                refCategoria.child(categoriaId).setValue(value)
+
+                value = Categoria(categoriaId!!, "Salário", firebaseUser?.getEmail().toString(), "Receita")
                 refCategoria.child(categoriaId).setValue(value)
             }
         }

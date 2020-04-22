@@ -46,4 +46,6 @@
     <string name="criar_email">Criar com E-mail</string>
     <string name="tenho_conta">Já tenho uma conta</string>
     <string name="altera_valor">Alterar valor</string>
+    <string name="nova_categoria">Nova Categoria</string>
+    <string name="tipo_lancamento">Tipo do lançamento</string>
 </resources>

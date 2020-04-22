@@ -22,6 +22,7 @@ class CategoriaAdapter (val mCtx: Context, val layoutResId: Int, val categoriaLi
 
         val tvLabel = view.findViewById<TextView>(R.id.tvLabel)
         val ivDelete = view.findViewById<ImageView>(R.id.ivDelete)
+        val tvTipo = view.findViewById<TextView>(R.id.tvTipo)
 
         ivDelete.setOnClickListener {
             dbCategoria.child(categoria.id).removeValue()
@@ -30,6 +31,7 @@ class CategoriaAdapter (val mCtx: Context, val layoutResId: Int, val categoriaLi
         }
 
         tvLabel.text = categoria.categoria
+        tvTipo.text = categoria.tipo
 
         return view
     }

@@ -290,7 +290,9 @@ class DespesaActivity : AppCompatActivity() {
             val option: MutableList<String> = mutableListOf()
 
             categoriaList.forEach { t: Categoria ->
-                option.add(t.categoria.trim())
+                if (t.tipo != "Receita") {
+                    option.add(t.categoria.trim())
+                }
             }
 
             val builder = AlertDialog.Builder(this@DespesaActivity)
