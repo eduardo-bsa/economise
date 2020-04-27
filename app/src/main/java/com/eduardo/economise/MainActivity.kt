@@ -331,7 +331,7 @@ class MainActivity : AppCompatActivity() {
         imOlho.setOnClickListener {
             if (mostra) {
                 tvSaldo.setText("- - -")
-                tvSaldo.setTextColor(Color.parseColor("#000"))
+                tvSaldo.setTextColor(Color.parseColor("#040404"))
                 imOlho.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_visibility_off_gray_24dp))
 
                 mostra = false

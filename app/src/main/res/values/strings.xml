@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Economise</string>
+    <string name="app_name">Economize</string>
     <string name="account_name">E-mail</string>
     <string name="username">exemplo@mail.com.br</string>
     <string name="password">Senha</string>
