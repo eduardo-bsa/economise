@@ -1,2 +1,2 @@
-# economize
+# Economize
 Controle suas finanças pessoais
