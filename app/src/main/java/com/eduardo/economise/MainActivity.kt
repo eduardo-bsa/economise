@@ -133,9 +133,6 @@ class MainActivity : AppCompatActivity() {
     private fun saldo() {
         lancamentoList = mutableListOf()
 
-        val sp: SharedPreferences? =
-            this.getSharedPreferences(PREF, Context.MODE_PRIVATE)
-
         val queryLancamento = FirebaseDatabase.getInstance().getReference("lancamento")
             .orderByChild("usuario")
             .equalTo(firebaseUser?.getEmail().toString())

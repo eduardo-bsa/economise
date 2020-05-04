@@ -44,6 +44,8 @@
         android:id="@+id/tvNull"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:gravity="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/lvLancamentos"
