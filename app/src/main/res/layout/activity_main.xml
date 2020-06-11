@@ -3,7 +3,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="#ffffff"
     android:layout_height="match_parent">
 
     <TextView
@@ -126,6 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:drawableTop="@drawable/ic_donut_gray"
                 android:text="@string/grafico"
                 android:textColor="#B4B4B4"
@@ -137,6 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:drawableTop="@drawable/ic_porcentagem_gray"
                 android:text="@string/metas"
                 android:textColor="#B4B4B4"
@@ -148,6 +149,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:drawableTop="@drawable/ic_engrenagem_gray"
                 android:text="@string/categorias"
                 android:textColor="#B4B4B4"
@@ -158,6 +160,7 @@
                 android:id="@+id/tvSair"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:drawableTop="@drawable/ic_sair_gray"
                 android:text="@string/sair"
                 android:textColor="#B4B4B4"

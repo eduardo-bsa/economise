@@ -48,4 +48,5 @@
     <string name="altera_valor">Alterar valor</string>
     <string name="nova_categoria">Nova Categoria</string>
     <string name="tipo_lancamento">Tipo do lançamento</string>
+    <string name="password_conf">Confirmar senha</string>
 </resources>

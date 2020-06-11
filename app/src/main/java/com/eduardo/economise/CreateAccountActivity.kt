@@ -27,6 +27,8 @@ class CreateAccountActivity : AppCompatActivity() {
     lateinit var imBack: ImageView
     lateinit var tiEmail: TextInputLayout
     lateinit var tiSenha: TextInputLayout
+    lateinit var tiSenhaConf: TextInputLayout
+    lateinit var et_password_conf: EditText
 
     //BD
     private var mDatabaseReference: DatabaseReference? = null
@@ -51,9 +53,11 @@ class CreateAccountActivity : AppCompatActivity() {
         imBack = findViewById(R.id.imBack)
         tiEmail = findViewById(R.id.tiEmail)
         tiSenha = findViewById(R.id.tiSenha)
+        tiSenhaConf = findViewById(R.id.tiSenhaConf)
+        et_password_conf = findViewById(R.id.et_password_conf)
 
         mDatabase = FirebaseDatabase.getInstance()
-        mDatabaseReference = mDatabase!!.reference!!.child("users")
+        mDatabaseReference = mDatabase!!.reference.child("users")
         mAuth = FirebaseAuth.getInstance()
 
         imBack.setOnClickListener { finish() }
@@ -65,6 +69,7 @@ class CreateAccountActivity : AppCompatActivity() {
 
         email = etEmail?.text.toString()
         password = etPassword?.text.toString()
+        val passConf = et_password_conf.text.toString()
 
         progressBar = findViewById(R.id.progressBar)
         layout = findViewById(R.id.layout)
@@ -92,7 +97,18 @@ class CreateAccountActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         })
 
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+        et_password_conf.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                tiSenhaConf.error = null
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        })
+
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passConf) &&
+            password == passConf && email!!.contains("@") && email!!.contains(".")) {
             progressBar.setVisibility(View.VISIBLE)
 
             enableViews(layout, false)
@@ -117,10 +133,18 @@ class CreateAccountActivity : AppCompatActivity() {
         } else {
             if (TextUtils.isEmpty(email)) {
                 tiEmail.error = "Preencha com o seu e-mail"
+            } else if (!email!!.contains("@") || !email!!.contains(".")) {
+                tiEmail.error = "E-mail inválido"
             }
 
             if (TextUtils.isEmpty(password)) {
                 tiSenha.error = "Escolha uma senha"
+            }
+
+            if (TextUtils.isEmpty(passConf)) {
+                tiSenhaConf.error = "Confirme a senha"
+            } else if (password != passConf) {
+                tiSenhaConf.error = "Senhas não conferem"
             }
         }
     }

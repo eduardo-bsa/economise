@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#ffffff"
     android:layout_height="match_parent"
     tools:context=".ReceitaActivity">
 
@@ -12,6 +11,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginBottom="2dp"
         android:background="#BDBDBD"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout6" />
 
@@ -130,6 +130,7 @@
             android:id="@+id/tvInicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_home_gray"
             android:text="@string/inicio"
@@ -141,6 +142,7 @@
             android:id="@+id/tvGrafico"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_donut_gray"
             android:text="@string/grafico"
@@ -152,6 +154,7 @@
             android:id="@+id/tvLimites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_porcentagem_gray"
             android:text="@string/metas"
@@ -163,6 +166,7 @@
             android:id="@+id/tvCategorias"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/ic_engrenagem_gray"
             android:text="@string/categorias"
@@ -174,6 +178,7 @@
             android:id="@+id/tvSair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:drawableTop="@drawable/ic_sair_gray"
             android:text="@string/sair"
             android:textColor="#B4B4B4"
