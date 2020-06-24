@@ -24,6 +24,11 @@ class LimitesActivity : AppCompatActivity() {
     lateinit var tvSair: TextView
     lateinit var tvInicio: TextView
     lateinit var btSave: Button
+    lateinit var ivUm: ImageView
+    lateinit var ivDois: ImageView
+    lateinit var ivTres: ImageView
+    lateinit var ivQuatro: ImageView
+    lateinit var ivCinco: ImageView
 
     lateinit var etEconomiaValor: EditText
     lateinit var etMaxValor: EditText
@@ -62,6 +67,11 @@ class LimitesActivity : AppCompatActivity() {
         tvCategorias = findViewById(R.id.tvCategorias)
         tvSair = findViewById(R.id.tvSair)
         btSave = findViewById(R.id.btSave)
+        ivUm = findViewById(R.id.ivUm)
+        ivDois = findViewById(R.id.ivDois)
+        ivTres = findViewById(R.id.ivTres)
+        ivQuatro = findViewById(R.id.ivQuatro)
+        ivCinco = findViewById(R.id.ivCinco)
 
         etEconomiaValor = findViewById(R.id.etEconomiaValor)
         etMaxValor = findViewById(R.id.etMaxValor)
@@ -71,7 +81,7 @@ class LimitesActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth!!.getCurrentUser()
 
-        tvGrafico.setOnClickListener {
+        ivDois.setOnClickListener {
             val intent = Intent(this@LimitesActivity, GraficoActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -79,7 +89,7 @@ class LimitesActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvInicio.setOnClickListener {
+        ivUm.setOnClickListener {
             val intent = Intent(this@LimitesActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -87,7 +97,7 @@ class LimitesActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvCategorias.setOnClickListener {
+        ivQuatro.setOnClickListener {
             val intent = Intent(this@LimitesActivity, CategoriasActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -95,7 +105,7 @@ class LimitesActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvSair.setOnClickListener {
+        ivCinco.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(this@LimitesActivity, LoginActivity::class.java)
@@ -364,7 +374,6 @@ class LimitesActivity : AppCompatActivity() {
         val alert = builder.create()
 
         alert.show()
-        alert.getWindow()?.setLayout(600, 600)
         alert.setCancelable(false)
         alert.setCanceledOnTouchOutside(false)
 

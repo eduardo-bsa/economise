@@ -44,6 +44,11 @@ class GraficoActivity : AppCompatActivity() {
     lateinit var tvEcon: TextView
     lateinit var tvMaxValor: TextView
     lateinit var tvMinReceita: TextView
+    lateinit var ivUm: ImageView
+    lateinit var ivDois: ImageView
+    lateinit var ivTres: ImageView
+    lateinit var ivQuatro: ImageView
+    lateinit var ivCinco: ImageView
 
     //Variáveis globais
     lateinit var categoria: MutableList<String>
@@ -83,11 +88,16 @@ class GraficoActivity : AppCompatActivity() {
         tvGasto = findViewById(R.id.tvGasto)
         tvReceita = findViewById(R.id.tvReceita)
         tvSaldo = findViewById(R.id.tvSaldo)
+        ivUm = findViewById(R.id.ivUm)
+        ivDois = findViewById(R.id.ivDois)
+        ivTres = findViewById(R.id.ivTres)
+        ivQuatro = findViewById(R.id.ivQuatro)
+        ivCinco = findViewById(R.id.ivCinco)
 
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth!!.getCurrentUser()
 
-        tvInicio.setOnClickListener {
+        ivUm.setOnClickListener {
             val intent = Intent(this@GraficoActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -95,7 +105,7 @@ class GraficoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvLimites.setOnClickListener {
+        ivTres.setOnClickListener {
             val intent = Intent(this@GraficoActivity, LimitesActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -103,7 +113,7 @@ class GraficoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvCategorias.setOnClickListener {
+        ivQuatro.setOnClickListener {
             val intent = Intent(this@GraficoActivity, CategoriasActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -111,7 +121,7 @@ class GraficoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvSair.setOnClickListener {
+        ivCinco.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(this@GraficoActivity, LoginActivity::class.java)
@@ -373,7 +383,6 @@ class GraficoActivity : AppCompatActivity() {
         val alert = builder.create()
 
         alert.show()
-        alert.getWindow()?.setLayout(600, 600)
         alert.setCancelable(false)
         alert.setCanceledOnTouchOutside(false)
 

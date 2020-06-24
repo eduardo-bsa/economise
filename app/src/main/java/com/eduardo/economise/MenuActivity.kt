@@ -1,17 +1,36 @@
 package com.eduardo.economise
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+
 
 class MenuActivity : AppCompatActivity() {
 
     lateinit var btEmail: Button
     lateinit var tvLogin: TextView
     lateinit var imLogin: ImageView
+    lateinit var imEmail:ImageView
+    lateinit var google_login_button: Button
+    lateinit var imFace: ImageView
+    lateinit var face_login_button: Button
+    private lateinit var auth: FirebaseAuth
+
+    var googleSignInClient : GoogleSignInClient? = null
+    val RC_SIGN_IN = 1000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +43,15 @@ class MenuActivity : AppCompatActivity() {
         btEmail = findViewById(R.id.btEmail)
         tvLogin = findViewById(R.id.tvLogin)
         imLogin = findViewById(R.id.imLogin)
+        imEmail = findViewById(R.id.imEmail)
+        imFace = findViewById(R.id.imFace)
+        face_login_button = findViewById(R.id.face_login_button)
+        google_login_button = findViewById(R.id.google_login_button)
+
+        auth = FirebaseAuth.getInstance()
+
+        imEmail.bringToFront()
+        imFace.bringToFront()
 
         btEmail.setOnClickListener {
             val intent = Intent(this@MenuActivity, CreateAccountActivity::class.java)
@@ -48,5 +76,51 @@ class MenuActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+
+        var gsq = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gsq)
+
+        google_login_button.setOnClickListener {
+            var signInIntent = googleSignInClient?.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w("TAG", "Google sign in failed", e)
+                // ...
+            }
+        }
+    }
+
+    fun firebaseAuthWithGoogle(acct: GoogleSignInAccount?) {
+
+        val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+
+                    val intent = Intent(this@MenuActivity, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "erro", Toast.LENGTH_LONG).show()
+                }
+            }
     }
 }

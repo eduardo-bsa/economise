@@ -24,6 +24,11 @@ class CategoriasActivity : AppCompatActivity() {
     lateinit var tvCategorias: TextView
     lateinit var tvSair: TextView
     lateinit var tvInicio: TextView
+    lateinit var ivUm: ImageView
+    lateinit var ivDois: ImageView
+    lateinit var ivTres: ImageView
+    lateinit var ivQuatro: ImageView
+    lateinit var ivCinco: ImageView
 
     lateinit var ivSave: ImageView
     lateinit var etCategoria: EditText
@@ -64,6 +69,11 @@ class CategoriasActivity : AppCompatActivity() {
         etTipo = findViewById(R.id.etTipo)
         tiTipo = findViewById(R.id.tiTipo)
         tiCategoria = findViewById(R.id.tiCategoria)
+        ivUm = findViewById(R.id.ivUm)
+        ivDois = findViewById(R.id.ivDois)
+        ivTres = findViewById(R.id.ivTres)
+        ivQuatro = findViewById(R.id.ivQuatro)
+        ivCinco = findViewById(R.id.ivCinco)
 
         ivSave = findViewById(R.id.ivSave)
         categoriaList = mutableListOf()
@@ -72,7 +82,7 @@ class CategoriasActivity : AppCompatActivity() {
         refCategoria = FirebaseDatabase.getInstance().getReference("categoria")
         firebaseUser = firebaseAuth!!.getCurrentUser()
 
-        tvGrafico.setOnClickListener {
+        ivDois.setOnClickListener {
             val intent = Intent(this@CategoriasActivity, GraficoActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -80,7 +90,7 @@ class CategoriasActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvLimites.setOnClickListener {
+        ivTres.setOnClickListener {
             val intent = Intent(this@CategoriasActivity, LimitesActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -88,7 +98,7 @@ class CategoriasActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvInicio.setOnClickListener {
+        ivUm.setOnClickListener {
             val intent = Intent(this@CategoriasActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -96,7 +106,7 @@ class CategoriasActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvSair.setOnClickListener {
+        ivCinco.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(this@CategoriasActivity, MenuActivity::class.java)
@@ -244,7 +254,6 @@ class CategoriasActivity : AppCompatActivity() {
         val alert = builder.create()
 
         alert.show()
-        alert.getWindow()?.setLayout(600, 600)
         alert.setCancelable(false)
         alert.setCanceledOnTouchOutside(false)
 

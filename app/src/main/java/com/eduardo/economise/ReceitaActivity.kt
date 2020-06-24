@@ -37,6 +37,11 @@ class ReceitaActivity : AppCompatActivity() {
     lateinit var tvLimites: TextView
     lateinit var tvCategorias: TextView
     lateinit var tvSair: TextView
+    lateinit var ivUm: ImageView
+    lateinit var ivDois: ImageView
+    lateinit var ivTres: ImageView
+    lateinit var ivQuatro: ImageView
+    lateinit var ivCinco: ImageView
 
     lateinit var etTitle: EditText
     lateinit var btnSave: Button
@@ -79,6 +84,11 @@ class ReceitaActivity : AppCompatActivity() {
         etCategoria = findViewById(R.id.etCategoria)
         tiData = findViewById(R.id.tiData)
         tiCategoria = findViewById(R.id.tiCategoria)
+        ivUm = findViewById(R.id.ivUm)
+        ivDois = findViewById(R.id.ivDois)
+        ivTres = findViewById(R.id.ivTres)
+        ivQuatro = findViewById(R.id.ivQuatro)
+        ivCinco = findViewById(R.id.ivCinco)
 
 
         lancamentoList = mutableListOf()
@@ -87,7 +97,7 @@ class ReceitaActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth!!.getCurrentUser()
 
-        tvInicio.setOnClickListener {
+        ivUm.setOnClickListener {
             val intent = Intent(this@ReceitaActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -95,7 +105,7 @@ class ReceitaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvGrafico.setOnClickListener {
+        ivDois.setOnClickListener {
             val intent = Intent(this@ReceitaActivity, GraficoActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -103,7 +113,7 @@ class ReceitaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvLimites.setOnClickListener {
+        ivTres.setOnClickListener {
             val intent = Intent(this@ReceitaActivity, LimitesActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -111,7 +121,7 @@ class ReceitaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvCategorias.setOnClickListener {
+        ivQuatro.setOnClickListener {
             val intent = Intent(this@ReceitaActivity, CategoriasActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -119,7 +129,7 @@ class ReceitaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvSair.setOnClickListener {
+        ivCinco.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(this@ReceitaActivity, MenuActivity::class.java)
@@ -356,7 +366,6 @@ class ReceitaActivity : AppCompatActivity() {
         val alert = builder.create()
 
         alert.show()
-        alert.getWindow()?.setLayout(600, 600)
         alert.setCancelable(false)
         alert.setCanceledOnTouchOutside(false)
 

@@ -49,4 +49,6 @@
     <string name="nova_categoria">Nova Categoria</string>
     <string name="tipo_lancamento">Tipo do lançamento</string>
     <string name="password_conf">Confirmar senha</string>
+    <string name="gmail">Criar com Gmail</string>
+    <string name="face">Criar com Facebook</string>
 </resources>

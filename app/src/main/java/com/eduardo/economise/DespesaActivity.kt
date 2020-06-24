@@ -36,6 +36,11 @@ class DespesaActivity : AppCompatActivity() {
     lateinit var tvLimites: TextView
     lateinit var tvCategorias: TextView
     lateinit var tvSair: TextView
+    lateinit var ivUm: ImageView
+    lateinit var ivDois: ImageView
+    lateinit var ivTres: ImageView
+    lateinit var ivQuatro: ImageView
+    lateinit var ivCinco: ImageView
 
     lateinit var etTitle: EditText
     lateinit var btnSave: Button
@@ -78,6 +83,11 @@ class DespesaActivity : AppCompatActivity() {
         etCategoria = findViewById(R.id.etCategoria)
         tiData = findViewById(R.id.tiData)
         tiCategoria = findViewById(R.id.tiCategoria)
+        ivUm = findViewById(R.id.ivUm)
+        ivDois = findViewById(R.id.ivDois)
+        ivTres = findViewById(R.id.ivTres)
+        ivQuatro = findViewById(R.id.ivQuatro)
+        ivCinco = findViewById(R.id.ivCinco)
 
 
         lancamentoList = mutableListOf()
@@ -86,7 +96,7 @@ class DespesaActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth!!.getCurrentUser()
 
-        tvInicio.setOnClickListener {
+        ivUm.setOnClickListener {
             val intent = Intent(this@DespesaActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -94,7 +104,7 @@ class DespesaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvGrafico.setOnClickListener {
+        ivDois.setOnClickListener {
             val intent = Intent(this@DespesaActivity, GraficoActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -102,7 +112,7 @@ class DespesaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvLimites.setOnClickListener {
+        ivTres.setOnClickListener {
             val intent = Intent(this@DespesaActivity, LimitesActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -110,7 +120,7 @@ class DespesaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvCategorias.setOnClickListener {
+        ivQuatro.setOnClickListener {
             val intent = Intent(this@DespesaActivity, CategoriasActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -118,7 +128,7 @@ class DespesaActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        tvSair.setOnClickListener {
+        ivCinco.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(this@DespesaActivity, MenuActivity::class.java)
@@ -355,7 +365,6 @@ class DespesaActivity : AppCompatActivity() {
         val alert = builder.create()
 
         alert.show()
-        alert.getWindow()?.setLayout(600, 600)
         alert.setCancelable(false)
         alert.setCanceledOnTouchOutside(false)
 
