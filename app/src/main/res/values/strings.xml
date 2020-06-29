@@ -50,5 +50,7 @@
     <string name="tipo_lancamento">Tipo do lançamento</string>
     <string name="password_conf">Confirmar senha</string>
     <string name="gmail">Criar com Gmail</string>
-    <string name="face">Criar com Facebook</string>
+    <string name="face">CRIAR COM FACEBOOK</string>
+    <string name="facebook_app_id">285429682603608</string>
+    <string name="fb_login_protocol_scheme">fb285429682603608</string>
 </resources>

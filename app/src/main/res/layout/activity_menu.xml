@@ -36,10 +36,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginStart="5dp"
             android:src="@drawable/google_icone"
-            android:layout_marginStart="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/google_login_button"
             app:layout_constraintStart_toStartOf="@+id/google_login_button"
             app:layout_constraintTop_toTopOf="@+id/google_login_button" />
@@ -56,13 +57,13 @@
             android:textColor="#000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/face_login_button" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
         <ImageView
             android:id="@+id/imEmail"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="5dp"
             android:src="@drawable/ic_email_white_24dp"
             app:layout_constraintBottom_toBottomOf="@+id/btEmail"
             app:layout_constraintStart_toStartOf="@+id/btEmail"
@@ -83,29 +84,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/google_login_button" />
 
-        <ImageView
-            android:id="@+id/imFace"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="15dp"
-            android:src="@drawable/face_logo"
-            app:layout_constraintBottom_toBottomOf="@+id/face_login_button"
-            app:layout_constraintStart_toStartOf="@+id/face_login_button"
-            app:layout_constraintTop_toTopOf="@+id/face_login_button" />
 
-        <Button
-            android:id="@+id/face_login_button"
-            android:layout_width="match_parent"
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/btn_login"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            xmlns:facebook="http://schemas.android.com/apk/res-auto"
+            facebook:com_facebook_login_text="@string/face"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"
-            android:backgroundTint="#3b5998"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:text="@string/face"
-            android:textColor="#ffffff"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/google_login_button"
+            app:layout_constraintStart_toStartOf="@+id/google_login_button"
             app:layout_constraintTop_toBottomOf="@+id/tvLabel" />
 
         <TextView
