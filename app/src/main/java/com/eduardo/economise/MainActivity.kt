@@ -304,7 +304,7 @@ class MainActivity : AppCompatActivity() {
             val currentDate: String =
                 SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(Date())
 
-            val sort = metaList.sortedBy { it.mes.toInt() }
+            val sort = metaList.sortedBy { it.mes.replace("/", "").toInt() }
             sort.reversed()
 
             var mesAtual = false
